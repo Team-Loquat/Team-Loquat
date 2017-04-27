@@ -1,0 +1,20 @@
+{
+  "name": "loquat-collector",
+  "version": "1.0.0",
+  "description": "Collector SPA",
+  "main": "js/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vlaev",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "firebase": "^3.9.0",
+    "handlebars": "^4.0.6",
+    "jquery": "^3.2.1",
+    "navigo": "^4.7.0",
+    "systemjs": "^0.20.12",
+    "systemjs-plugin-babel": "0.0.21"
+  }
+}
