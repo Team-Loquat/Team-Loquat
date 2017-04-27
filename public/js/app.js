@@ -24,16 +24,18 @@ var hash = '#!';
 
 var router = new Navigo(root, useHash, hash);
 
-router
-    .on(() => {
-        homeController();
-    })
-    .resolve();
+
 
 router.on('/home', homeController);
 router.on('/signin', signInController);
 router.on('/register', registerController);
 
+router
+    .on(() => {
+        homeController();
+    })
+    .resolve();
+    
 router.notFound(function () {
     invalidController();
 });
