@@ -9,7 +9,7 @@ System.config({
     'app': 'js/app.js',
     'requester': 'js/requester.js',
     'templates': 'js/templates.js',
-    
+    'data': 'js/data.js',
 
     // Controllers
     'homeController': 'js/controllers/homeController.js',
@@ -23,7 +23,8 @@ System.config({
     'handlebars': 'node_modules/handlebars/dist/handlebars.min.js',
 
     // Firebase
-    'firebase': 'node_modules/firebase/firebase.js'
+    'firebase': 'node_modules/firebase/firebase.js',
+    'firebaseConfig': 'js/configs/firebase-config.js',
   }
 });
 
