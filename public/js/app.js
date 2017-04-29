@@ -14,7 +14,6 @@ import {
     get as signInController
 } from 'signInController';
 
-import User from 'user';
 
 var root = null;
 var useHash = false;
@@ -37,14 +36,4 @@ router
 router.notFound(function () {
     invalidController();
 });
-
-User.initAuthStatusChange();
-$('#verify-btn').click( User.verifyAcocunt );
-$('#sign-in-btn').click( () => {
-    if ($('#sign-in-btn').text() === 'Sign out') {
-        User.signOut();
-    } else {
-        router.navigate('/signin')
-    }
-})
 
