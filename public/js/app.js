@@ -1,18 +1,11 @@
 import 'jquery';
 import Navigo from 'navigo';
 
-import {
-    get as homeController
-} from 'homeController';
-import {
-    get as invalidController
-} from 'invalidController';
-import {
-    get as registerController
-} from 'registerController';
-import {
-    get as signInController
-} from 'signInController';
+import { get as homeController } from 'homeController';
+import { get as invalidController } from 'invalidController';
+import { get as registerController } from 'registerController';
+import { registerUser } from 'registerController';
+import { get as signInController } from 'signInController';
 
 
 var root = null;
@@ -21,19 +14,29 @@ var hash = '#!';
 
 var router = new Navigo(root, useHash, hash);
 
-
-
-router.on('/home', homeController);
-router.on('/signin', signInController);
-router.on('/register', registerController);
-
 router
-    .on(() => {
-        homeController();
+    .on('/', () => {
+        $.when(homeController())
+            .then();
     })
-    .resolve();
+    .on('/home', () => {
+        $.when(homeController())
+            .then()
+    })
+    .on('/signin', () => {
+        $.when(signInController())
+            .then()
+    })
+    .on('/register', () => {
+        $.when(registerController())
+            .then(() => {
+                $('#register-btn').click(() => {
+                    registerUser();
+                    console.log('1');
+                })
+            });
+    }).resolve();
 
 router.notFound(function () {
     invalidController();
 });
-
