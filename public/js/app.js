@@ -1,5 +1,6 @@
 import 'jquery';
 import Navigo from 'navigo';
+import User from 'user';
 
 import {
     get as homeController
@@ -37,3 +38,11 @@ router.notFound(function () {
     invalidController();
 });
 
+User.initAuthStatusChange();
+$('#sign-in-btn').click( () => {
+    if ($('#sign-in-btn').text() === 'Sign out') {
+        User.signOut();
+    } else {
+        router.navigate('/signin');
+    }
+})

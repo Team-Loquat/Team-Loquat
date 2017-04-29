@@ -6,7 +6,7 @@ export default class User {
         return firebase.auth().currentUser;
     }
 
-    static auth(email, password) {
+    static registerUser(email, password) {
         firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
             // Handle Errors
             var errorCode = error.code;

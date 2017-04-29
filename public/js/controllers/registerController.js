@@ -3,6 +3,8 @@ import { load as loadTemplate } from 'templates';
 
 import * as registerUser from 'data';
 
+import User from 'user';
+
 const $appContainer = $('#app-container');
 
 const getNextId = (function () {
@@ -22,7 +24,8 @@ function register() {
     const userName = $('#inputUserName').val();
     const password = $('#inputPassword').val();
     const email = $('#inputEmail').val();
-    
+
+    User.registerUser( email, password );
    //registerUser(userId, firstName, lastName, userName, email);
  
 }
@@ -31,5 +34,7 @@ export function get(params) {
     loadTemplate('register')
         .then(template => {
             $appContainer.html(template());
-        }).then(register);
+        }).then( () => {
+            $('#send-register-btn').click( register );
+        });
 }
