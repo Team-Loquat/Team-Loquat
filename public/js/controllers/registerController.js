@@ -2,6 +2,7 @@ import 'jquery';
 import { load as loadTemplate } from 'templates';
 
 import * as registerUser from 'data';
+import User from 'user';
 
 const $appContainer = $('#app-container');
 
@@ -22,7 +23,8 @@ function register() {
     const userName = $('#inputUserName').val();
     const password = $('#inputPassword').val();
     const email = $('#inputEmail').val();
-    
+    User.auth( email, password );
+
    //registerUser(userId, firstName, lastName, userName, email);
  
 }
@@ -31,5 +33,8 @@ export function get(params) {
     loadTemplate('register')
         .then(template => {
             $appContainer.html(template());
-        }).then(register);
+        }).then(() => {
+            $('#send-registration-btn')
+                .click( register );
+        });
 }

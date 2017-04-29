@@ -10,6 +10,7 @@ System.config({
     'requester': 'js/requester.js',
     'templates': 'js/templates.js',
     'data': 'js/data.js',
+    'user': 'js/user.js',
 
     // Controllers
     'homeController': 'js/controllers/homeController.js',
