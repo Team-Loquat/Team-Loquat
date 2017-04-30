@@ -6,57 +6,76 @@ export default class User {
         return firebase.auth().currentUser;
     }
 
-    static registerUser(email, password) {
-        firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
-            // Handle Errors
-            var errorCode = error.code;
-            var errorMessage = error.message;
+    static registerUser(email, password, onSuccess, onError) {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .catch(function (error) {
+                var errorCode = error.code;
+                var errorMessage = error.message;
 
-            if (errorCode == 'auth/weak-password') {
-                alert('The password is too weak.');
-            } else {
-                alert(errorMessage);
-            }
-            console.log('auth request sent')
-        })
+                if (onError) {
+                    onError(error);
+                } else {
+                    if (errorCode == 'auth/weak-password') {
+                        alert('The password is too weak.');
+                    } else {
+                        alert(errorMessage);
+                    }
+                }
+            })
             .then( () => {
-                firebase.auth().signInWithEmailAndPassword( email, password );
+                firebase.auth().signInWithEmailAndPassword(email, password);
+                if (onSuccess) {
+                    onSuccess();
+                }
             });
     }
 
     static initAuthStatusChange() {
         firebase.auth().onAuthStateChanged( function (user) {
-            $('#verify-btn').addClass('hidden');
+            $('#verify-btn').addClass( 'hidden' );
             if (user) {
-                // User is signed in.
                 var email = user.email;
                 var emailVerified = user.emailVerified;
                 $('#sign-in-status').text( `Signed in with ${email}` );
                 $('#register-btn').addClass('hidden');
                 $('#sign-in-btn').text( 'Sign out' );
                 if (!emailVerified) {
-                    $('#verify-btn').removeClass('hidden');
+                    $('#verify-btn').removeClass( 'hidden' );
                 }
             } else {
                 $('#sign-in-status').text( 'Signed out' );
                 $('#sign-in-btn').text( 'Sign in' );
-                $('#register-btn').removeClass('hidden');
+                $('#register-btn').removeClass( 'hidden' );
             }
         });
     }
 
     static verifyAcocunt() {
         firebase.auth().currentUser.sendEmailVerification()
-            .then(()=> alert(`Verification e-mail sent to ${User.currentUser.email}`));
+            .then( ()=> alert( `Verification e-mail sent to ${User.currentUser.email}` ))
+            .catch( ()=> alert( 'Something went wrong. Please try again!' ) );
     }
 
     static signOut() {
-        firebase.auth().signOut();
+        firebase.auth().signOut()
+            .catch( ()=> alert('Something went wrong. Please try again!') );
     }
 
-    static signIn( email, password ) {
-        firebase.auth().signInWithEmailAndPassword( email, password ).catch( error => {
-            //handle errors
-        });
+    static signIn( email, password, onSuccess, onError ) {
+        firebase.auth().signInWithEmailAndPassword( email, password )
+            .catch( error => {
+                if (onError) {
+                    onError(error);
+                } else {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    if (errorCode === 'auth/wrong-password') {
+                        alert('Wrong password.');
+                    } else {
+                        alert(errorMessage);
+                    }
+                }
+            })
+            .then( ()=> onSuccess() );
     }
 }
