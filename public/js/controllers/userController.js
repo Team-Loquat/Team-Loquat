@@ -82,7 +82,7 @@ export default class User {
             })
             .then( ()=> {
                 if (onSuccess) {
-                    onSuccess()
+                    onSuccess();
                 }
             } );
     }
