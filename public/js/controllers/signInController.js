@@ -1,12 +1,12 @@
 import { load as loadTemplate } from 'templates';
-import User from 'user';
+import User from 'userController';
 
 const $appContainer = $('#app-container');
 
-function signIn() {
+export function signIn() {
     const password = $('#inputPassword').val();
     const email = $('#inputEmail').val();
-    User.signIn( email, password );
+    User.signIn(email, password);
 }
 
 export function get(params) {

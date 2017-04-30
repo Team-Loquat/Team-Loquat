@@ -17,6 +17,7 @@ System.config({
     'invalidController': 'js/controllers/invalidController.js',
     'signInController': 'js/controllers/signInController.js',
     'registerController': 'js/controllers/registerController.js',
+    'userController': 'js/controllers/userController.js',
 
     // Library files
     'jquery': 'node_modules/jquery/dist/jquery.min.js',    

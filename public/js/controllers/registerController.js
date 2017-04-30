@@ -3,25 +3,11 @@ import { load as loadTemplate } from 'templates';
 
 import * as registerUser from 'data';
 
-import User from 'user';
+import User from 'userController';
 
 const $appContainer = $('#app-container');
 
-const getNextId = (function () {
-    let counter = 1;
-
-    return function () {
-        counter += 1;
-        return counter;
-    };
-}());
-
-
-function register() {
-    const userId = getNextId();
-    const firstName = $('#inputFirstName').val();
-    const lastName = $('#inputLastName').val();
-    const userName = $('#inputUserName').val();
+export function register() {        
     const password = $('#inputPassword').val();
     const email = $('#inputEmail').val();
 
@@ -35,6 +21,6 @@ export function get(params) {
         .then(template => {
             $appContainer.html(template());
         }).then( () => {
-            $('#send-register-btn').click( register );
+            $('#send-register-btn').click(register);
         });
 }
