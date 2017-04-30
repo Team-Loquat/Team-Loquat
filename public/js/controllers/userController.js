@@ -80,6 +80,10 @@ export default class User {
                     }
                 }
             })
-            .then( ()=> onSuccess() );
+            .then( ()=> {
+                if (onSuccess) {
+                    onSuccess()
+                }
+            } );
     }
 }
