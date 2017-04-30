@@ -13,10 +13,7 @@ export function get(params) {
     loadTemplate('signIn')
         .then(template => {
             $appContainer.html(template());
-        })
-        .then(() => {
-            $('#send-sign-in-btn').click(signIn)
+        }).then(() => {
+            $('#send-sign-in-btn').click(signIn);
         });
-}
-
- 
+};

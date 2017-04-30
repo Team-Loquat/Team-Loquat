@@ -2,19 +2,19 @@
     float:right;
 }
 
-.centred{
-    width: 100px;
-    height: 100px;
-    
-    position: absolute;
-    top:0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+.centered{
+    width: 250px;
+    height: 250px;    
 
     margin: auto;
+}
+.btn{
+    margin: 5px;
 }
 
 .hidden {
     display: none;
+}
+#sign-in-status{
+    margin-top: 15px;
 }

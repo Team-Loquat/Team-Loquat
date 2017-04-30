@@ -1,4 +1,5 @@
 import * as firebase from 'firebase';
+import router from 'app';
 
 export default class User {
 
@@ -29,6 +30,7 @@ export default class User {
                 firebase.auth().signInWithEmailAndPassword(email, password);
                 if (onSuccess) {
                     onSuccess();
+                    
                 }
             });
     }
@@ -46,6 +48,7 @@ export default class User {
                     $('#verify-btn').removeClass( 'hidden' );
                     $('#verify-btn').click( User.verifyAcocunt );
                 }
+                router.navigate('/home');
             } else {
                 $('#sign-in-status').text( 'Signed out' );
                 $('#sign-in-btn').text( 'Sign in' );
