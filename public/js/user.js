@@ -3,7 +3,10 @@ import * as firebase from 'firebase';
 export default class User {
 
     static currentUser() {
-        return firebase.auth().currentUser;
+        return {
+            email: firebase.auth().currentUser.email,
+            uid: firebase.auth().currentUser.uid
+        }
     }
 
     static registerUser(email, password, onSuccess, onError) {
@@ -41,6 +44,7 @@ export default class User {
                 $('#sign-in-btn').text( 'Sign out' );
                 if (!emailVerified) {
                     $('#verify-btn').removeClass( 'hidden' );
+                    $('#verify-btn').click( User.verifyAcocunt );
                 }
             } else {
                 $('#sign-in-status').text( 'Signed out' );
@@ -52,7 +56,7 @@ export default class User {
 
     static verifyAcocunt() {
         firebase.auth().currentUser.sendEmailVerification()
-            .then( ()=> alert( `Verification e-mail sent to ${User.currentUser.email}` ))
+            .then( ()=> alert( `Verification e-mail sent to ${User.currentUser().email}` ))
             .catch( ()=> alert( 'Something went wrong. Please try again!' ) );
     }
 
