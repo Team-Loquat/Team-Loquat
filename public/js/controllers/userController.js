@@ -26,51 +26,51 @@ export default class User {
                     }
                 }
             })
-            .then( () => {
+            .then(() => {
                 firebase.auth().signInWithEmailAndPassword(email, password);
                 if (onSuccess) {
                     onSuccess();
-                    
+
                 }
             });
     }
 
     static initAuthStatusChange() {
-        firebase.auth().onAuthStateChanged( function (user) {
-            $('#verify-btn').addClass( 'hidden' );
+        firebase.auth().onAuthStateChanged(function (user) {
+            $('#verify-btn').addClass('hidden');
             if (user) {
                 var email = user.email;
                 var emailVerified = user.emailVerified;
-                $('#sign-in-status').text( `Signed in with ${email}` );
+                $('#sign-in-status').text(`Signed in with ${email}`);
                 $('#register-btn').addClass('hidden');
-                $('#sign-in-btn').text( 'Sign out' );
+                $('#sign-in-btn').text('Sign out');
                 if (!emailVerified) {
-                    $('#verify-btn').removeClass( 'hidden' );
-                    $('#verify-btn').click( User.verifyAcocunt );
+                    $('#verify-btn').removeClass('hidden');
+                    $('#verify-btn').click(User.verifyAcocunt);
                 }
-                router.navigate('/home');
+                router.navigate(`/user/${User.currentUser().uid}`);
             } else {
-                $('#sign-in-status').text( 'Signed out' );
-                $('#sign-in-btn').text( 'Sign in' );
-                $('#register-btn').removeClass( 'hidden' );
+                $('#sign-in-status').text('Signed out');
+                $('#sign-in-btn').text('Sign in');
+                $('#register-btn').removeClass('hidden');
             }
         });
     }
 
     static verifyAcocunt() {
         firebase.auth().currentUser.sendEmailVerification()
-            .then( ()=> alert( `Verification e-mail sent to ${User.currentUser().email}` ))
-            .catch( ()=> alert( 'Something went wrong. Please try again!' ) );
+            .then(() => alert(`Verification e-mail sent to ${User.currentUser().email}`))
+            .catch(() => alert('Something went wrong. Please try again!'));
     }
 
     static signOut() {
         firebase.auth().signOut()
-            .catch( ()=> alert('Something went wrong. Please try again!') );
+            .catch(() => alert('Something went wrong. Please try again!'));
     }
 
-    static signIn( email, password, onSuccess, onError ) {
-        firebase.auth().signInWithEmailAndPassword( email, password )
-            .catch( error => {
+    static signIn(email, password, onSuccess, onError) {
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .catch(error => {
                 if (onError) {
                     onError(error);
                 } else {
@@ -83,10 +83,10 @@ export default class User {
                     }
                 }
             })
-            .then( ()=> {
+            .then(() => {
                 if (onSuccess) {
                     onSuccess();
                 }
-            } );
+            });
     }
 }

@@ -1,7 +1,5 @@
 import * as firebase from 'firebase';
-import {
-  db as firebaseDB
-} from 'firebaseConfig';
+import { db as firebaseDB } from 'firebaseConfig';
 
 //const db = firebase.database();
 
@@ -18,18 +16,12 @@ import {
 const defaultRef = firebaseDB.ref('data/');
 const usersRef = defaultRef.child('users');
 
-export function addNewUserToDatabase(firstName, lastName, userName, password, email) {
+export function addNewUserToDatabase(id) {
+   const user = {};
+   user[id] = {
 
-  const user = {
-    userName: {
-      firstName,
-      lastName,      
-      password,
-      email
-    }
-  };
- 
-
+   };
+   
   return new Promise((resolve, reject) => {
     usersRef.push(user);
   });
