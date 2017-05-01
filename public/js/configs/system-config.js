@@ -19,6 +19,7 @@ System.config({
     'registerController': 'js/controllers/registerController.js',
     'userController': 'js/controllers/userController.js',
     'currentUserController' : 'js/controllers/currentUserController.js',
+    'shareController': 'js/controllers/shareUserController.js',
 
     // Library files
     'jquery': 'node_modules/jquery/dist/jquery.min.js',    
