@@ -1,4 +1,4 @@
-import 'jquery';
+//import 'jquery';
 import { load as loadTemplate } from 'templates';
 import User from 'userController';
 

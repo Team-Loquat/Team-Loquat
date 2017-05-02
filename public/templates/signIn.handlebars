@@ -1,14 +1,28 @@
 <div class="centered">
-    <form>
-        <div class="form-group">
-            <label for="inputEmail">Email address</label>
-            <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+    <div class="card">
+        <div class="card-block">
+            <div class="form-header  default-color-dark">
+                <h3><i class="fa fa-lock"></i> Sign in:</h3>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="inputPassword">Password</label>
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+        <div class="md-form">
+            <i class="fa fa-envelope prefix"></i>
+            <input type="email" id="inputEmail" class="form-control">
+            <label for="form2">Your email</label>
         </div>
-    </form>
-    <button class="btn btn-primary" id="send-sign-in-btn">Sign in</button>
-    <!--<strong>Sign in</strong>-->
+        <div class="md-form">
+            <i class="fa fa-lock prefix"></i>
+            <input type="password" id="inputPassword" class="form-control">
+            <label for="form4">Your password</label>
+        </div>
+        <div class="text-center">
+            <button class="btn default-color-dark" id="send-sign-in-btn">Sign in</button>
+        </div>
+        <div class="modal-footer">
+        <div class="options">
+            <p>Not a member? <a href="#/register">Sign Up</a></p>             
+        </div>
+    </div>
+    </div>
+
 </div>

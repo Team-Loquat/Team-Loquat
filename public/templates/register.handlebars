@@ -1,14 +1,22 @@
 <div class="centered">
-    <form>
-        <div class="form-group">
-            <label for="inputPassword">Password</label>
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+    <div class="card">
+        <div class="card-block">
+            <div class="form-header  default-color-dark">
+                <h3><i class="fa fa-lock"></i> Register:</h3>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="inputEmail">Email address</label>
-            <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        <div class="md-form">
+            <i class="fa fa-envelope prefix"></i>
+            <input type="email" id="inputEmail" class="form-control">
+            <label for="form2">Your email</label>
         </div>
-    </form>
-    <button class="btn btn-primary" id="send-register-btn">Register</button>
+        <div class="md-form">
+            <i class="fa fa-lock prefix"></i>
+            <input type="password" id="inputPassword" class="form-control">
+            <label for="form4">Your password</label>
+        </div>
+        <div class="text-center">
+            <button class="btn default-color-dark" id="send-register-btn">Register</button>
+        </div>
+    </div>     
 </div>

@@ -3,7 +3,7 @@ import User from 'userController';
 
 const $appContainer = $('#app-container');
 
-//export const currentUserId = User.currentUser().uid;
+ 
 
 
 export function get(params) {

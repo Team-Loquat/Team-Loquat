@@ -48,11 +48,16 @@ export default class User {
                     $('#verify-btn').removeClass('hidden');
                     $('#verify-btn').click(User.verifyAcocunt);
                 }
-                router.navigate('#/user/' + User.currentUser().email.split('@')[0]);
+                const routeId = '#/user/' + User.currentUser().email.split('@')[0];
+                router.navigate(routeId);
+
+                $('#profile-btn').attr('href', routeId).removeClass('hidden');
+
             } else {
                 $('#sign-in-status').text('Signed out');
                 $('#sign-in-btn').text('Sign in');
                 $('#register-btn').removeClass('hidden');
+                $('#profile-btn').addClass('hidden').attr('href', '');
             }
         });
     }
