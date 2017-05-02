@@ -30,7 +30,7 @@ router
         $.when(signInController())
             .then();
     })
-    .on('/user/:id', () => {
+    .on('/user/*', () => {
         $.when(currentUserController())
             .then();
     })

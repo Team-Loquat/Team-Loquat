@@ -48,7 +48,7 @@ export default class User {
                     $('#verify-btn').removeClass('hidden');
                     $('#verify-btn').click(User.verifyAcocunt);
                 }
-                router.navigate(`/user/${User.currentUser().uid}`);
+                router.navigate('user/' + User.currentUser().email.split('@')[0]);
             } else {
                 $('#sign-in-status').text('Signed out');
                 $('#sign-in-btn').text('Sign in');
