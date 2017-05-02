@@ -28,6 +28,14 @@ window.twttr = (function(d, s, id) {
     return t;
 }(document, "script", "twitter-wjs"));
 
+//Google+
+( function loadGooglePlus() {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://apis.google.com/js/platform.js";
+    document.getElementsByTagName("head")[0].appendChild(script);
+}());
+
 //Handlebars helpers
 Handlebars.registerHelper('facebook-btn', function(options) {
     return new Handlebars.SafeString(
@@ -46,10 +54,19 @@ Handlebars.registerHelper('tweeter-btn', function(options) {
             Tweet</a>`);
 });
 
+Handlebars.registerHelper('google-btn', function(options) {
+    return new Handlebars.SafeString(
+        `<div class="g-plus"
+              data-action="share"
+              data-href="${options.fn(this)}">
+         </div>`);
+});
+
 // How to use
 /*
     const template = '{{#facebook-btn}}{{url}}{{/facebook-btn}}
-                      {{#tweeter-btn}}{{url}}{{/tweeter-btn}}';
+                      {{#tweeter-btn}}{{url}}{{/tweeter-btn}}
+                      {{#google-btn}}{{url}}{{/google-btn}}';
 
     const compiled = Handlebars.compile( template );
     const container = document.getElementById('container');
