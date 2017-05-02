@@ -1,5 +1,6 @@
 html,
 body {
+    margin: 0;
     height: 100%;
 }
 
@@ -25,10 +26,8 @@ body {
 #sign-in-status {
     padding: 15px;
 }
-
+ 
 footer {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;   
+    position: relative;
+    top: 70%;
 }
