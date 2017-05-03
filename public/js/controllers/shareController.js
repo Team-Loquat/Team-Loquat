@@ -58,7 +58,8 @@ Handlebars.registerHelper('google-btn', function(options) {
     return new Handlebars.SafeString(
         `<div class="g-plus"
               data-action="share"
-              data-href="${options.fn(this)}">
+              data-href="${options.fn(this)}"
+              data-height="24">
          </div>`);
 });
 
