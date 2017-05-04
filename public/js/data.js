@@ -30,23 +30,29 @@ const usersRef = defaultRef.child('users');
 //}
 
 function writeNewItem( image, href, description ) {
-  var itemData = {
-    uid: firebase.auth().currentUser.uid,
-    image: image,
-    href: href,
-    description: description,
-    rating : 0
-  };
+    const image = image || '';
+    const href = href || '';
+    const description = description || '';
+    var itemData = {
+        uid: firebase.auth().currentUser.uid,
+        image: image,
+        href: href,
+        description: description,
+        rating: 0
+    };
 
-  var newItemKey = firebase.database().ref().child('items').push().key;
+    var newItemKey = firebase.database().ref().child('items').push().key;
 
-  var updates = {};
-  updates['/items/' + newItemKey] = itemData;
+    var updates = {};
+    updates['/items/' + newItemKey] = itemData;
 
-  return firebase.database().ref().update(updates);
+    return firebase.database().ref().update(updates);
 }
 
 function writeNewCollection( items, type, description ) {
+    const items = items || '';
+    const type = type || '';
+    const description = description || '';
     var timestamp = new Date();
     timestamp = timestamp.getTime();
     var collectionData = {
