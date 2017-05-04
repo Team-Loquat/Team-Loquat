@@ -47,12 +47,16 @@ function writeNewItem( image, href, description ) {
 }
 
 function writeNewCollection( items, type, description ) {
+    var timestamp = new Date();
+    timestamp = timestamp.getTime();
     var collectionData = {
         uid: firebase.auth().currentUser.uid,
         items: items,
-        type: type,
+        colType: type,
         description: description,
-        isPrivate: true
+        isPrivate: true,
+        timestamp: timestamp,
+        author: firebase.auth().currentUser.email
     };
 
     var newCollectionKey = firebase.database().ref().child('collections').push().key;
@@ -63,8 +67,155 @@ function writeNewCollection( items, type, description ) {
     return firebase.database().ref().update(updates);
 }
 
+function getMyItems( onSuccess, onError ) {
+    const myId = firebase.auth().currentUser.uid;
+    const items = [];
+    const query = firebase.database().ref("items").orderByChild("uid").equalTo( myId );
+    query.once("value")
+        .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                const childData = childSnapshot.val();
+                items.push( {
+                    image: childData.image,
+                    href: childData.href,
+                    description: childData.description,
+                    rating : childData.rating
+                })
+            });
+            if (onSuccess) {
+                onSuccess(items);
+            }
+        })
+        .catch( (error) => {
+            if (onError) {
+                onError( error );
+            } else {
+                console.log(error);
+            }
+        });
+}
+
+function getMyCollections( onSuccess, onError ) {
+    const myId = firebase.auth().currentUser.uid;
+    const collections = [];
+    const query = firebase.database().ref("collections").orderByChild("uid").equalTo( myId );
+    query.once("value")
+        .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var childData = childSnapshot.val();
+                var items = [];
+                const itemPromises = [];
+                const references = childData.items;
+                for (let i = 0, len = references.length; i < len; i += 1) {
+                    const reference = "/items/" + references[i];
+                    const itemPromise = firebase.database().ref(reference);
+                    itemPromise.once("value").
+                        then( (snapshot) => {
+                            const item = snapshot.val();
+                            if (!item) {
+                                return;
+                            }
+                            items.push({
+                                image: item.image,
+                                href: item.href,
+                                description: item.description,
+                                rating: item.rating
+                            });
+                        } );
+                    itemPromises.push( itemPromise );
+                }
+                Promise.all( itemPromises ).then( () => {
+                    collections.push({
+                        items: items,
+                        colType: childData.colType,
+                        description: childData.description,
+                        isPrivate: childData.isPrivate,
+                        timestamp: childData.timestamp
+                    })
+                })
+            });
+            if (onSuccess) {
+                onSuccess(collections);
+            }
+        })
+        .catch( (error) => {
+            if (onError) {
+                onError( error );
+            } else {
+                console.log(error);
+            }
+        });
+}
+
+function getAllCollections( onSuccess, onError ) {
+    const myId = firebase.auth().currentUser.uid;
+    const collections = [];
+    const query = firebase.database().ref("collections");
+    query.once("value")
+        .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var childData = childSnapshot.val();
+                if (childData.uid != myId && childData.isPrivate) {
+                    return;
+                }
+                var items = [];
+                const itemPromises = [];
+                const references = childData.items;
+                for (let i = 0, len = references.length; i < len; i += 1) {
+                    const reference = "/items/" + references[i];
+                    const itemPromise = firebase.database().ref(reference);
+                    itemPromise.once("value").
+                        then((snapshot) => {
+                            const item = snapshot.val();
+                            if (!item) {
+                                return;
+                            }
+                            items.push({
+                                image: item.image,
+                                href: item.href,
+                                description: item.description,
+                                rating: item.rating
+                            });
+                        });
+                    itemPromises.push(itemPromise);
+                }
+                Promise.all(itemPromises)
+                    .then(() => {
+                        collections.push({
+                            items: items,
+                            colType: childData.colType,
+                            description: childData.description,
+                            isPrivate: childData.isPrivate,
+                            timestamp: childData.timestamp,
+                            author: author
+                        })
+
+                    })
+                    .catch((error) => {
+                        if (onError) {
+                            onError(error);
+                        } else {
+                            console.log(error);
+                        }
+                    })
+            });
+            if (onSuccess) {
+                onSuccess(collections);
+            }
+        })
+        .catch( (error) => {
+            if (onError) {
+                onError( error );
+            } else {
+                console.log(error);
+            }
+        });
+}
 
 export {
     writeNewItem,
-    writeNewCollection
+    writeNewCollection,
+    getMyItems,
+    getMyCollections,
+    getAllCollections,
     };
