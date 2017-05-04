@@ -1,5 +1,6 @@
 import { load as loadTemplate } from 'templates';
 import User from 'userController';
+import { writeNewItem } from 'data';
 
 const $appContainer = $('#app-container');
 

@@ -76,6 +76,7 @@ function getMyItems( onSuccess, onError ) {
             snapshot.forEach(function(childSnapshot) {
                 const childData = childSnapshot.val();
                 items.push( {
+                    key: childSnapshot.key,
                     image: childData.image,
                     href: childData.href,
                     description: childData.description,
@@ -116,6 +117,7 @@ function getMyCollections( onSuccess, onError ) {
                                 return;
                             }
                             items.push({
+                                key: snapshot.key,
                                 image: item.image,
                                 href: item.href,
                                 description: item.description,
@@ -126,6 +128,7 @@ function getMyCollections( onSuccess, onError ) {
                 }
                 Promise.all( itemPromises ).then( () => {
                     collections.push({
+                        key: childSnapshot.key,
                         items: items,
                         colType: childData.colType,
                         description: childData.description,
@@ -171,6 +174,7 @@ function getAllCollections( onSuccess, onError ) {
                                 return;
                             }
                             items.push({
+                                key: snapshot.key,
                                 image: item.image,
                                 href: item.href,
                                 description: item.description,
@@ -182,12 +186,13 @@ function getAllCollections( onSuccess, onError ) {
                 Promise.all(itemPromises)
                     .then(() => {
                         collections.push({
+                            key: childSnapshot.key,
                             items: items,
                             colType: childData.colType,
                             description: childData.description,
                             isPrivate: childData.isPrivate,
                             timestamp: childData.timestamp,
-                            author: author
+                            author: childData.author
                         })
 
                     })

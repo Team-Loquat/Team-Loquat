@@ -48,7 +48,7 @@ export default class User {
                     $('#verify-btn').removeClass('hidden');
                     $('#verify-btn').click(User.verifyAcocunt);
                 }
-                const routeId = '#/user/' + User.currentUser().email.split('@')[0];
+                const routeId = 'user/' + User.currentUser().email.split('@')[0];
                 router.navigate(routeId);
 
                 $('#profile-btn').attr('href', routeId).removeClass('hidden');
