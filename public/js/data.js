@@ -50,7 +50,7 @@ function writeNewItem( image, href, description ) {
 }
 
 function writeNewCollection( items, type, description ) {
-    const items = items || '';
+    const items = items || [];
     const type = type || '';
     const description = description || '';
     var timestamp = new Date();
