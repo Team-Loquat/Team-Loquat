@@ -52,12 +52,12 @@ export default class User {
                 router.navigate(routeId);
 
                 $('#profile-btn').attr('href', routeId).removeClass('hidden');
-
+                
             } else {
                 $('#sign-in-status').text('Signed out');
                 $('#sign-in-btn').text('Sign in');
                 $('#register-btn').removeClass('hidden');
-                $('#profile-btn').addClass('hidden').attr('href', '');
+                $('#profile-btn').addClass('hidden').attr('href', '');                            
             }
         });
     }

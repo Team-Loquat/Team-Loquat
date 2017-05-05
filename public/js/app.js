@@ -37,7 +37,6 @@ router
     .on('/home', () => {
         $.when(homeController())
             .then()
-    })
     .on('/signin', () => {
         $.when(signInController())
             .then();
