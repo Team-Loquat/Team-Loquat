@@ -26,6 +26,11 @@ System.config({
     'navigo': 'node_modules/navigo/lib/navigo.min.js',
     'handlebars': 'node_modules/handlebars/dist/handlebars.min.js',
 
+    // Models
+    'validator': 'js/models/helpers/validator.js',
+    'item': 'js/models/item.js',
+    
+
     // Firebase
     'firebase': 'node_modules/firebase/firebase.js',
     'firebaseConfig': 'js/configs/firebase-config.js',

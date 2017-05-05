@@ -16,8 +16,6 @@ const hash = '#!';
 
 const router = new Navigo(root, useHash, hash);
 
-
-
 router
     .on('/', () => {
         $.when(homeController())

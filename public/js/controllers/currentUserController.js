@@ -4,9 +4,6 @@ import * as data from 'data';
 
 const $appContainer = $('#app-container');
 
- 
-
-
 export function get(params) {
     loadTemplate('currentUser')
         .then(template => {
