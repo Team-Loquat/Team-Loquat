@@ -11,12 +11,22 @@ body {
     margin-top: 5%;
 }
 
-.navbar {
-    background-color: #0f6256;
+main {
+    margin-top: 3rem;
 }
 
-.btn {
-    margin: 5px;
+main .card {
+    margin-bottom: 2rem;
+}
+
+@media only screen and (max-width: 768px) {
+    .read-more {
+        text-align: center;
+    }
+}
+
+.navbar {
+    background-color: #0f6256;
 }
 
 .hidden {
@@ -26,8 +36,8 @@ body {
 #sign-in-status {
     padding: 15px;
 }
- 
-footer {
-    position: relative;
-    top: 70%;
+
+footer.page-footer {
+    background-color: #0f6256;
+    margin-top: 2rem;
 }

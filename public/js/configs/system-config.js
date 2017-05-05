@@ -20,11 +20,14 @@ System.config({
     'userController': 'js/controllers/userController.js',
     'currentUserController' : 'js/controllers/currentUserController.js',
     'shareController': 'js/controllers/shareUserController.js',
+    'currentUserCollectionsController': 'js/controllers/currentUserCollectionsController.js',
+    
 
     // Library files
     'jquery': 'node_modules/jquery/dist/jquery.min.js',    
     'navigo': 'node_modules/navigo/lib/navigo.min.js',
-    'handlebars': 'node_modules/handlebars/dist/handlebars.min.js',
+    'handlebars': 'node_modules/handlebars/dist/handlebars.min.js',  
+    
 
     // Models
     'validator': 'js/models/helpers/validator.js',
