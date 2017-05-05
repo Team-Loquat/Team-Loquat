@@ -8,7 +8,7 @@ export function get(params) {
     loadTemplate('currentUser')
         .then(template => {
             $appContainer.html(template());
-        })
+        }) 
         //.then( () => {
         //    $('#test-btn').click( () => {
         //        data.writeNewCollection( ['-KjDx8UXRvjM4h4hP92i', '-KjDx90X92ILDgwv-ey0'], 'movies', 'some Description' );

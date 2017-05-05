@@ -4,31 +4,9 @@ import {
 } from 'firebaseConfig';
 import Validator from 'validator';
 
-//const db = firebase.database();
-
-// export function writeUserData(userId, firstName, lastName, userName, email) {
-//   db.ref('users/' + userId).set({
-//     firstName: firstName,
-//     lastName: lastName,
-//     userName: userName,
-//     email: email
-//   });
-// }
-
 
 const defaultRef = firebaseDB.ref('data/');
-const usersRef = defaultRef.child('users');
-
-//export function addNewUserToDatabase(id) {
-//  const user = {};
-//  user[id] = {
-//    test: 'test'
-//  };
-//
-//  return new Promise((resolve, reject) => {
-//    usersRef.push(user);
-//  });
-//}
+const usersRef = defaultRef.child('users'); 
 
  function writeNewItem( image, href, description ) {
      const _image = image || '';
@@ -63,7 +41,7 @@ const usersRef = defaultRef.child('users');
          description: _description,
          isPrivate: true,
          timestamp: timestamp,
-         author: firebase.auth().currentUser.email
+         author: firebase.auth().currentUser.email.split('@')[0]
      };
 
      var newCollectionKey = firebase.database().ref().child('collections').push().key;
