@@ -4,15 +4,38 @@
     <div class="row">
         <div class="col-md-12">
             <h3 class="h3-responsive">Your collections:
-                <a href="#/user/*"><small>back to your profile</small></a>
+                <a href="#/user/*"><small>back to your profile controls</small></a>
             </h3>
         </div>
     </div>
-     
-    <hr>
 
-    
-    
+    <hr>
+    {{#each collections}}
+    <div class="card">
+        <!--Card image-->
+        <div class="view overlay hm-white-slight">
+            <img src="imgs/movies-collection.gif" class="img-fluid" alt="">
+            <a href="#!">
+                <div class="mask"></div>
+            </a>
+        </div>
+        <!--/.Card image-->
+
+        <!--Card content-->
+        <div class="card-block">
+            <!--Title-->
+            <h4 class="card-title">My favorite movies</h4>
+            <!--Text-->
+            <p class="card-text">Bunch of movies, that I can watch any given day</p>
+            <div class="read-more">
+                <a href="#!" class="btn btn-brown">Read more</a>
+            </div>
+        </div>
+        <!--/.Card content-->
+    </div>
+    <!--/.Card-->
+    {{/each}}
+
     <hr>
 
     <!--Pagination-->

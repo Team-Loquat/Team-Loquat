@@ -67,7 +67,7 @@ router
                 $("#create-collection-btn").on('click', function () {
                     const items = [];
                     const type = $('#inputCollectionType').val();
-                    const description = $('#inputCollectionType').val();
+                    const description = $('#inputCollectionDescription').val();
                    
                     data.writeNewCollection(items, type, description);
 
