@@ -68,7 +68,7 @@ router
                     const items = [];
                     const type = $('#inputCollectionType').val();
                     const description = $('#inputCollectionDescription').val();
-                   
+                   console.log('create button clicked');
                     data.writeNewCollection(items, type, description);
 
                     router.navigate('#/collections/');

@@ -1,12 +1,14 @@
-import { load as loadTemplate } from 'templates';
+import {
+    load as loadTemplate
+} from 'templates';
 
 const $appContainer = $('#app-container');
 
 export function get(params) {
-    loadTemplate('home')
-        .then(template => {
-            $appContainer.html(template());
-        });
+    return new Promise((resolve, reject) => {
+        resolve(loadTemplate('home')
+            .then(template => {
+                $appContainer.html(template);
+            }));
+    });
 }
-
- 

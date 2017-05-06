@@ -4,15 +4,17 @@ import * as data from 'data';
 
 const $appContainer = $('#app-container');
 
-export function get(params) {
-    loadTemplate('currentUser')
-        .then(template => {
-            $appContainer.html(template());
-        }) 
-        //.then( () => {
+//.then( () => {
         //    $('#test-btn').click( () => {
         //        data.writeNewCollection( ['-KjDx8UXRvjM4h4hP92i', '-KjDx90X92ILDgwv-ey0'], 'movies', 'some Description' );
         //        data.getAllCollections( (collections) => console.log(collections) );
         //    })
         //} );
+export function get(params) {
+    return new Promise((resolve, reject) => {
+        resolve(loadTemplate('currentUser')
+            .then(template => {
+                $appContainer.html(template);
+            }));
+    });
 }

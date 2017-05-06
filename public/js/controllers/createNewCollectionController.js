@@ -3,10 +3,12 @@ import User from 'userController';
 import * as data from 'data';
 
 const $appContainer = $('#app-container');
-
+ 
 export function get(params) {
-    loadTemplate('createNewCollection')
-        .then(template => {
-            $appContainer.html(template());
-        })        
+    return new Promise((resolve, reject) => {
+        resolve(loadTemplate('createNewCollection')
+            .then(template => {
+                $appContainer.html(template);
+            }));
+    });
 }

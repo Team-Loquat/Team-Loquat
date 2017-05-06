@@ -1,6 +1,10 @@
-import { load as loadTemplate } from 'templates';
+import {
+    load as loadTemplate
+} from 'templates';
 import User from 'userController';
-import { writeNewItem } from 'data';
+import {
+    writeNewItem
+} from 'data';
 
 const $appContainer = $('#app-container');
 
@@ -9,12 +13,14 @@ export function signIn() {
     const email = $('#inputEmail').val();
     User.signIn(email, password);
 }
-
+ 
 export function get(params) {
-    loadTemplate('signIn')
-        .then(template => {
-            $appContainer.html(template());
-        }).then(() => {
-            $('#send-sign-in-btn').click(signIn);
-        });
-};
+    return new Promise((resolve, reject) => {
+        resolve(loadTemplate('signIn')
+            .then(template => {
+                $appContainer.html(template);
+            }).then(() => {
+                $('#send-sign-in-btn').click(signIn);
+            }));
+    });
+}

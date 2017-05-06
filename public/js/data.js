@@ -31,7 +31,7 @@ const usersRef = defaultRef.child('users');
  function writeNewCollection( items, type, description ) {
      const _items = items || [];
      if (_items.length === 0 ) {
-         _item.push( 'init' );
+         _items.push( 'init' );
      }
      const _type = type || '';
      const _description = description || '';
