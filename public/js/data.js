@@ -108,7 +108,10 @@ const usersRef = defaultRef.child('users');
                      var childData = childSnapshot.val();
                      var items = [];
                      const itemPromises = [];
-                     const references = childData.items;
+                     let references = childData.items;
+                     if (!references) {
+                         references = [];
+                     }
                      for (let i = 0, len = references.length; i < len; i += 1) {
                          const reference = "/items/" + references[i];
                          const itemPromise = firebase.database().ref(reference);
@@ -160,7 +163,10 @@ const usersRef = defaultRef.child('users');
                      }
                      var items = [];
                      const itemPromises = [];
-                     const references = childData.items;
+                     let references = childData.items;
+                     if (!references) {
+                         references = [];
+                     }
                      for (let i = 0, len = references.length; i < len; i += 1) {
                          const reference = "/items/" + references[i];
                          const itemPromise = firebase.database().ref(reference);
