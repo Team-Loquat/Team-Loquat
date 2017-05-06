@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-import router from 'app';
+import { router as router} from 'app';
 
 export default class User {
 

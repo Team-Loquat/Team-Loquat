@@ -24,12 +24,17 @@ import {
 import {
     get as createNewCollectionController
 } from 'createNewCollectionController';
+import {
+    get as collectionManageController
+} from 'collectionManageController';
 
 const root = null;
 const useHash = false;
 const hash = '#!';
 
 const router = new Navigo(root, useHash, hash);
+
+const keys = [];
 
 router
     .on('/', () => {
@@ -59,7 +64,18 @@ router
     })
     .on('/collections/', () => {
         $.when(currentUserCollectionsController())
-            .then();
+            .then(() => {
+
+                $('.collection-manage-btn').click(() => {
+                    const key = $('.collection-manage-btn').next().html();
+                    $('#key-container').html(key);
+                    console.log(key);
+                    router.navigate('#/collection-manage/');
+
+                });
+
+
+            })
     })
     .on('/create-collection/', () => {
         $.when(createNewCollectionController())
@@ -68,11 +84,27 @@ router
                     const items = [];
                     const type = $('#inputCollectionType').val();
                     const description = $('#inputCollectionDescription').val();
-                   console.log('create button clicked');
+
                     data.writeNewCollection(items, type, description);
 
                     router.navigate('#/collections/');
                 });
+            });
+    })
+    .on('/collection-manage/', () => {
+        $.when(collectionManageController())
+            .then(() => {
+                $('#item-add-btn').click(() => {
+                    const collectionId = $('#key-container').html();
+                    console.log("collid" + '*' + collectionId)
+                    const itemToSearch = $('#itemToSearch').val();
+                    console.log(itemToSearch);
+                    const requestUrl = 'http://www.omdbapi.com/?t=';
+                    $.get(requestUrl + itemToSearch).then((jsonData) => {                         
+                         data.writeNewItem(collectionId, jsonData.Title, jsonData.Poster, jsonData.Plot);
+                    });
+                    
+                })
             });
     })
     .on('/register', () => {
@@ -92,4 +124,7 @@ $('#sign-in-btn').click(() => {
     }
 });
 
-export default router;
+
+export {
+    router,
+}

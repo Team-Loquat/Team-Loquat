@@ -8,22 +8,21 @@ import Validator from 'validator';
 const defaultRef = firebaseDB.ref('data/');
 const usersRef = defaultRef.child('users'); 
 
- function writeNewItem( image, href, description ) {
-     const _image = image || '';
+ function writeNewItem(collectionId, name, href, description ) {
+     const _name = name || '';
      const _href = href || '';
      const _description = description || '';
      var itemData = {
          uid: firebase.auth().currentUser.uid,
-         image: _image,
+         name: _name,
          href: _href,
-         description: _description,
-         rating: 0
+         description: _description          
      };
 
-     var newItemKey = firebase.database().ref().child('items').push().key;
+     var newItemKey = firebase.database().ref('/collections/' + collectionId + '/').child('items').push().key;
 
      var updates = {};
-     updates['/items/' + newItemKey] = itemData;
+     updates['/collections/' + collectionId + '/items/' + newItemKey] = itemData;
 
      return firebase.database().ref().update(updates);
  }
@@ -111,6 +110,61 @@ const usersRef = defaultRef.child('users');
                                      href: item.href,
                                      description: item.description,
                                      rating: item.rating
+                                 });
+                             });
+                         itemPromises.push(itemPromise);
+                     }
+                     Promise.all(itemPromises)
+                         .then(() => {
+                             collections.push({
+                                 key: childSnapshot.key,
+                                 items: items,
+                                 colType: childData.colType,
+                                 description: childData.description,
+                                 isPrivate: childData.isPrivate,
+                                 timestamp: childData.timestamp
+                             })
+                         })
+                         .catch((error) => reject(error));
+                 });
+                 resolve(collections);
+             })
+             .catch((error) => reject(error));
+     });
+ }
+
+ function getCollectionByKey(key) {
+     //const myId = firebase.auth().currentUser.uid;
+     const collections = [];
+     const query = firebase.database().ref("collections").orderByKey().equalTo(key);
+     return new Promise( (resolve, reject) => {
+         query.once("value")
+             .then(function (snapshot) {
+                 snapshot.forEach(function (childSnapshot) {
+                     var childData = childSnapshot.val();
+                     var items = [];
+                     const itemPromises = [];
+                     let references = childData.items;
+                     if (!references) {
+                         references = [];
+                     }
+                     for (let i = 0, len = references.length; i < len; i += 1) {
+                         if (references[i] === 'init') {
+                             continue;
+                         }
+                         const reference = "/items/" + references[i];
+                         const itemPromise = firebase.database().ref(reference);
+                         itemPromise.once("value").
+                             then((snapshot) => {
+                                 const item = snapshot.val();
+                                 if (!item) {
+                                     return;
+                                 }
+                                 items.push({
+                                     key: snapshot.key,
+                                     image: item.image,
+                                     href: item.href,
+                                     description: item.description                                      
                                  });
                              });
                          itemPromises.push(itemPromise);
@@ -230,5 +284,6 @@ function updateData( key , values ) {
      getMyItems,
      getMyCollections,
      getAllCollections,
-     updateData
+     updateData,
+     getCollectionByKey
      };
