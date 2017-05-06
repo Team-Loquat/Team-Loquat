@@ -30,6 +30,9 @@ const usersRef = defaultRef.child('users');
 
  function writeNewCollection( items, type, description ) {
      const _items = items || [];
+     if (_items.length === 0 ) {
+         _item.push( 'init' );
+     }
      const _type = type || '';
      const _description = description || '';
      var timestamp = new Date();
@@ -91,6 +94,9 @@ const usersRef = defaultRef.child('users');
                          references = [];
                      }
                      for (let i = 0, len = references.length; i < len; i += 1) {
+                         if (references[i] === 'init') {
+                             continue;
+                         }
                          const reference = "/items/" + references[i];
                          const itemPromise = firebase.database().ref(reference);
                          itemPromise.once("value").
@@ -109,17 +115,18 @@ const usersRef = defaultRef.child('users');
                              });
                          itemPromises.push(itemPromise);
                      }
-                     Promise.all(itemPromises).then(() => {
-                         collections.push({
-                             key: childSnapshot.key,
-                             items: items,
-                             colType: childData.colType,
-                             description: childData.description,
-                             isPrivate: childData.isPrivate,
-                             timestamp: childData.timestamp
+                     Promise.all(itemPromises)
+                         .then(() => {
+                             collections.push({
+                                 key: childSnapshot.key,
+                                 items: items,
+                                 colType: childData.colType,
+                                 description: childData.description,
+                                 isPrivate: childData.isPrivate,
+                                 timestamp: childData.timestamp
+                             })
                          })
                          .catch((error) => reject(error));
-                     })
                  });
                  resolve(collections);
              })
@@ -146,6 +153,9 @@ const usersRef = defaultRef.child('users');
                          references = [];
                      }
                      for (let i = 0, len = references.length; i < len; i += 1) {
+                         if (references[i] === 'init') {
+                             continue;
+                         }
                          const reference = "/items/" + references[i];
                          const itemPromise = firebase.database().ref(reference);
                          itemPromise.once("value").
