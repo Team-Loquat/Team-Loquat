@@ -4,9 +4,11 @@ import * as data from 'data';
 
 const $appContainer = $('#app-container');
 
+
 export function get(params) {
-    loadTemplate('currentUserCollections')
+    loadTemplate('currentUserCollections')        
         .then(template => {
-            $appContainer.html(template());
+            const collections = data.getMyCollections();
+            $appContainer.html(template(collections));
         })        
 }

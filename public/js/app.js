@@ -1,8 +1,7 @@
 //import 'jquery';
 import Navigo from 'navigo';
 import User from 'userController';
-import * as registerUser from 'data';
-
+import * as data from 'data';
 
 import {
     get as homeController
@@ -22,6 +21,9 @@ import {
 import {
     get as currentUserCollectionsController
 } from 'currentUserCollectionsController';
+import {
+    get as createNewCollectionController
+} from 'createNewCollectionController';
 
 const root = null;
 const useHash = false;
@@ -37,6 +39,7 @@ router
     .on('/home', () => {
         $.when(homeController())
             .then()
+    })
     .on('/signin', () => {
         $.when(signInController())
             .then();
@@ -44,21 +47,38 @@ router
     .on('/user/*', () => {
         $.when(currentUserController())
             .then(() => {
-                $("#view-collections").on('click', function () {                     
+                $("#new-collection").on('click', function () {
+                    router.navigate('#/create-collection/');
+                });
+
+                $("#view-collections").on('click', function () {
                     router.navigate('#/collections/');
                 });
+
             });
     })
     .on('/collections/', () => {
         $.when(currentUserCollectionsController())
             .then();
     })
+    .on('/create-collection/', () => {
+        $.when(createNewCollectionController())
+            .then(() => {
+                $("#create-collection-btn").on('click', function () {
+                    const items = [];
+                    const type = $('#inputCollectionType').val();
+                    const description = $('#inputCollectionDescription').val();
+                   
+                    data.writeNewCollection(items, type, description);
+
+                    router.navigate('#/collections/');
+                });
+            });
+    })
     .on('/register', () => {
         $.when(registerController())
             .then();
     }).resolve();
-
-
 
 router.notFound(function () {
     invalidController();
@@ -66,13 +86,10 @@ router.notFound(function () {
 
 User.initAuthStatusChange();
 
-
-
-
 $('#sign-in-btn').click(() => {
     if ($('#sign-in-btn').text() === 'Sign out') {
         User.signOut();
-    };
-})
+    }
+});
 
 export default router;

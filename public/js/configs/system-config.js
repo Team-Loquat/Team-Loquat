@@ -21,7 +21,7 @@ System.config({
     'currentUserController' : 'js/controllers/currentUserController.js',
     'shareController': 'js/controllers/shareUserController.js',
     'currentUserCollectionsController': 'js/controllers/currentUserCollectionsController.js',
-    
+    'createNewCollectionController': 'js/controllers/createNewCollectionController.js',
 
     // Library files
     'jquery': 'node_modules/jquery/dist/jquery.min.js',    
