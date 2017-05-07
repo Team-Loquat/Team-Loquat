@@ -10,11 +10,11 @@ const $appContainer = $('#app-container');
 export function get(params) {
     return new Promise((resolve, reject) => {
         const key = $('#key-container').html();
-        data.getCollectionByKey(key).then((collection) => {
-             
-            console.log(collection[0])
-             
-            resolve(loadTemplate('collectionManage', collection[0])
+        data.getCollectionByKey(key).then((collection) => {            
+            
+            console.log(collection);
+
+            resolve(loadTemplate('collectionManage', collection)
                 .then(template => {
                     $appContainer.html(template);
                 }));

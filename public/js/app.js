@@ -96,9 +96,9 @@ router
             .then(() => {
                 $('#item-add-btn').click(() => {
                     const collectionId = $('#key-container').html();
-                    console.log("collid" + '*' + collectionId)
+                    //console.log("collid" + '*' + collectionId)
                     const itemToSearch = $('#itemToSearch').val();
-                    console.log(itemToSearch);
+                   // console.log(itemToSearch);
                     const requestUrl = 'http://www.omdbapi.com/?t=';
                     $.get(requestUrl + itemToSearch).then((jsonData) => {                         
                          data.writeNewItem(collectionId, jsonData.Title, jsonData.Poster, jsonData.Plot);
