@@ -6,7 +6,30 @@
     </div>
 </div>
 <div>
- {{#each this}}
- <p>sdsad</p>
+ {{#each this.items}}
+  <div class="card">        
+        <!--Card image-->
+        <div class="view overlay hm-white-slight">             
+                <img src="{{this.Poster}}" class="img-fluid" alt="">          
+            <a href="#!">
+                <div class="mask"></div>
+            </a>
+        </div>
+        <!--/.Card image-->
+
+        <!--Card content-->
+        <div class="card-block">
+            <!--Title-->
+            <h4 class="card-title" id="coll-type">Name: {{this.name}}</h4>
+            <!--Text-->
+            <p class="card-text">{{this.description}}</p>             
+            <div class="read-more">                
+                <button class="btn btn-brown item-delete-btn">Delte</button>
+                <span class="hidden">{{this.key}}</span>
+            </div>
+        </div>
+        <!--/.Card content-->
+    </div>
+    <!--/.Card-->
  {{/each}}
 </div>
