@@ -107,12 +107,13 @@ router
 
                 })
             }).then(() => {
-                $('.item-btn-delete').click(() => {
+                $('.item-btn-delete').click((ev) => {
+                    
                     const collectionId = $('#key-container').html();
                     const itemKey = $('.item-btn-delete').next().html();
-                    console.log('test delete');
+                    
                     data.deleteItem(itemKey, collectionId);
-                    $('.item-btn-delete').parent().parent().remove();
+                    $(ev.target).parent().parent().remove();
                 });
             });
     })
