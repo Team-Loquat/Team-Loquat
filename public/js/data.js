@@ -333,6 +333,30 @@ function deleteItem (itemKey, collectionKey) {
     });
 }
 
+function deleteCollection( collectionKey ){
+    return new Promise( (resolve, reject) => {
+        getCollectionByKey( collectionKey )
+            .then( (collections) => {
+                let collection = collections[0];
+                let items = [];
+                for (let item of collection.items) {
+                    items.push(item.key);
+                }
+                const itemPromises = [];
+                for (let item of items) {
+                    itemPromises.push( deleteItem( item, collectionKey) );
+                }
+                Promise.all( itemPromises )
+                    .then( () => {
+                        firebase.database().ref('/collections/' + collectionKey ).remove()
+                            .then( () => resolve() )
+                            .catch((error) => reject(error));
+                    } )
+                    .catch((error) => reject(error));
+            })
+            .catch((error) => reject(error));
+    });
+}
 
  export {
      writeNewItem,
@@ -342,5 +366,6 @@ function deleteItem (itemKey, collectionKey) {
      getAllCollections,
 //     updateData,
      getCollectionByKey,
-     deleteItem
+     deleteItem,
+     deleteCollection
      };
