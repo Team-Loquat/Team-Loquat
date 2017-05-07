@@ -8,7 +8,7 @@ import Validator from 'validator';
 const defaultRef = firebaseDB.ref('data/');
 const usersRef = defaultRef.child('users'); 
 
- function writeNewItem(collectionId, name, href, description ) {
+function writeNewItem(collectionId, name, href, description ) {
      const _name = name || '';
      const _href = href || '';
      const _description = description || '';
@@ -19,15 +19,30 @@ const usersRef = defaultRef.child('users');
          description: _description          
      };
 
-     var newItemKey = firebase.database().ref('/collections/' + collectionId + '/').child('items').push().key;
+     var newItemKey = firebase.database().ref().child('items').push().key;
 
      var updates = {};
-     updates['/collections/' + collectionId + '/items/' + newItemKey] = itemData;
+     updates['/items/' + newItemKey] = itemData;
 
-     return firebase.database().ref().update(updates);
+     return new Promise( ( resolve, reject ) => {
+         firebase.database().ref().update(updates)
+             .then( () => {
+                 const collectionRef = firebase.database().ref('collections/' + collectionId );
+                 collectionRef.once("value")
+                     .then((snapshot) => {
+                         const collection = snapshot.val();
+                         collection.items.push( newItemKey );
+                         collectionRef.set( collection )
+                            .then( (result) => resolve(result) )
+                            .catch( (error) => reject(error) );
+                     })
+                 .catch( (error) => reject(error) )
+             })
+         .catch( (error) => reject(error) );
+     })
  }
 
- function writeNewCollection( items, type, description ) {
+function writeNewCollection( items, type, description ) {
      const _items = items || [];
      if (_items.length === 0 ) {
          _items.push( 'init' );
@@ -54,7 +69,7 @@ const usersRef = defaultRef.child('users');
      return firebase.database().ref().update(updates);
  }
 
- function getMyItems() {
+function getMyItems() {
      const myId = firebase.auth().currentUser.uid;
      const items = [];
      const query = firebase.database().ref("items").orderByChild("uid").equalTo( myId );
@@ -77,7 +92,7 @@ const usersRef = defaultRef.child('users');
      });
  }
 
- function getMyCollections() {
+function getMyCollections() {
      const myId = firebase.auth().currentUser.uid;
      const collections = [];
      const query = firebase.database().ref("collections").orderByChild("uid").equalTo( myId );
@@ -133,7 +148,7 @@ const usersRef = defaultRef.child('users');
      });
  }
 
- function getCollectionByKey(key) {
+function getCollectionByKey(key) {
      //const myId = firebase.auth().currentUser.uid;
      const collections = [];
      const query = firebase.database().ref("collections").orderByKey().equalTo(key);
@@ -188,7 +203,7 @@ const usersRef = defaultRef.child('users');
      });
  }
 
- function getAllCollections() {
+function getAllCollections() {
      const myId = firebase.auth().currentUser.uid;
      const collections = [];
      const query = firebase.database().ref("collections");
@@ -256,7 +271,7 @@ function updateData( key , values ) {
         ref.once('value')
             .then( (snapshot) => {
                 const keysNotFound = [];
-                const update = {};
+                const update = snapshot.val();
                 for (let key in values) {
                     if (key === 'dataType') {
                         continue;
