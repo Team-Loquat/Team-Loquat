@@ -278,45 +278,54 @@ function getAllCollections() {
      });
  }
 
-function updateData( key , values ) {
-    Validator.validateUpdateData( key, values );
-    const reference = values.dataType + '/' + key;
-    const ref = firebase.database().ref( reference );
-    return new Promise( ( resolve, reject ) => {
-        ref.once('value')
-            .then( (snapshot) => {
-                const keysNotFound = [];
-                const update = snapshot.val();
-                for (let key in values) {
-                    if (key === 'dataType') {
-                        continue;
-                    }
-                    if (!snapshot.child(key).exists()) {
-                        keysNotFound.push( key );
-                    }
-                    update[key] = values[key];
-                }
-                if (keysNotFound.length > 0) {
-                    reject( 'Following keys: ' + keysNotFound.join(', ') + ' not found!')
-                }
-                ref.set(update)
-                    .then( () => resolve() )
-                    .catch( (error) => reject(error) );
-
-            })
-            .catch( (error) => reject(error) );
-    });
-}
+//function updateData( key , values ) {
+//    //Validator.validateUpdateData( key, values );
+//    const reference = values.dataType + '/' + key;
+//    const ref = firebase.database().ref( reference );
+//    return new Promise( ( resolve, reject ) => {
+//        ref.once('value')
+//            .then( (snapshot) => {
+//                const keysNotFound = [];
+//                const update = snapshot.val();
+//                for (let key in values) {
+//                    if (key === 'dataType') {
+//                        continue;
+//                    }
+//                    if (!snapshot.child(key).exists()) {
+//                        keysNotFound.push( key );
+//                    }
+//                    update[key] = values[key];
+//                }
+//                if (keysNotFound.length > 0) {
+//                    console.log( keysNotFound );
+//                    reject( 'Following keys: ' + keysNotFound.join(', ') + ' not found!')
+//                }
+//                ref.set(update)
+//                    .then( () => resolve() )
+//                    .catch( (error) => reject(error) );
+//
+//            })
+//            .catch( (error) => reject(error) );
+//    });
+//}
 
 function deleteItem (itemKey, collectionKey) {
     return new Promise( (resolve, reject) => {
         getCollectionByKey( collectionKey )
             .then( (collections) => {
-                const collection = collections.slice(0,1);
-                collection.items.splice( collection.items.indexOf( itemKey ), 1 );
+                let collection = collections[0];
+                let items = ['init'];
+                for (let item of collection.items) {
+                    if (item.key !== itemKey ) {
+                        items.push(item.key);
+                    }
+                }
+                collection.items = items;
                 collection[ 'dataType' ] = 'collections';
+                const colPromise = firebase.database().ref('/collections/' + collectionKey + '/items')
+                    .set( items );
                 const itemPromise = firebase.database().ref('/items/' + itemKey ).remove();
-                Promise.all([ updateData( collection.key, collection ), itemPromise ] )
+                Promise.all([ colPromise, itemPromise ] )
                     .then( () => resolve() )
                     .catch((error) => reject(error));
             })
@@ -331,7 +340,7 @@ function deleteItem (itemKey, collectionKey) {
      getMyItems,
      getMyCollections,
      getAllCollections,
-     updateData,
+//     updateData,
      getCollectionByKey,
      deleteItem
      };
