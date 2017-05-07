@@ -151,6 +151,16 @@ router
                     }
                     if (itemToSearchType.indexOf('book') >= 0) {
 
+                        $.ajax('https://www.googleapis.com/books/v1/volumes?q="' + itemToSearch + '"').then((jsonData) => {
+                            jsonData = Object.values(jsonData);
+                            jsonData = jsonData[2][0].volumeInfo;
+                            console.log(jsonData)
+                            const title = jsonData.title;
+                            const href = jsonData.imageLinks.thumbnail;
+                            const description = jsonData.description;
+
+                            data.writeNewItem(collectionId, title, href, description);
+                        })
                     }
 
                 })
