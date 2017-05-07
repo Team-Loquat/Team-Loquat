@@ -308,6 +308,23 @@ function updateData( key , values ) {
     });
 }
 
+function deleteItem (itemKey, collectionKey) {
+    return new Promise( (resolve, reject) => {
+        getCollectionByKey( collectionKey )
+            .then( (collections) => {
+                const collection = collections.slice(0,1);
+                collection.items.splice( collection.items.indexOf( itemKey ), 1 );
+                collection[ 'dataType' ] = 'collections';
+                const itemPromise = firebase.database().ref('/items/' + itemKey ).remove();
+                Promise.all([ updateData( collection.key, collection ), itemPromise ] )
+                    .then( () => resolve() )
+                    .catch((error) => reject(error));
+            })
+            .catch((error) => reject(error));
+    });
+}
+
+
  export {
      writeNewItem,
      writeNewCollection,
