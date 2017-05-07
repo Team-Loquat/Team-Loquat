@@ -113,9 +113,13 @@ function getMyCollections() {
                              continue;
                          }
                          const reference = "/items/" + references[i];
-                         const itemPromise = firebase.database().ref(reference);
-                         itemPromise.once("value").
-                             then((snapshot) => {
+                         const itemPromise = firebase.database().ref(reference).once("value");
+
+                         itemPromises.push(itemPromise);
+                     }
+                     let colPromise = Promise.all(itemPromises)
+                         .then((itemsData) => {
+                             for (let snapshot of itemsData) {
                                  const item = snapshot.val();
                                  if (!item) {
                                      return;
@@ -124,14 +128,9 @@ function getMyCollections() {
                                      key: snapshot.key,
                                      image: item.image,
                                      href: item.href,
-                                     description: item.description,
-                                     rating: item.rating
+                                     description: item.description
                                  });
-                             });
-                         itemPromises.push(itemPromise);
-                     }
-                     let colPromise = Promise.all(itemPromises)
-                         .then(() => {
+                             }
                              collections.push({
                                  key: childSnapshot.key,
                                  items: items,
@@ -173,9 +172,13 @@ function getCollectionByKey(key) {
                              continue;
                          }
                          const reference = "/items/" + references[i];
-                         const itemPromise = firebase.database().ref(reference);
-                         itemPromise.once("value").
-                             then((snapshot) => {
+                         const itemPromise = firebase.database().ref(reference).once("value");
+
+                         itemPromises.push(itemPromise);
+                     }
+                     let colPromise = Promise.all(itemPromises)
+                         .then((itemsData) => {
+                             for (let snapshot of itemsData) {
                                  const item = snapshot.val();
                                  if (!item) {
                                      return;
@@ -184,13 +187,9 @@ function getCollectionByKey(key) {
                                      key: snapshot.key,
                                      image: item.image,
                                      href: item.href,
-                                     description: item.description                                      
+                                     description: item.description
                                  });
-                             });
-                         itemPromises.push(itemPromise);
-                     }
-                     let colPromise = Promise.all(itemPromises)
-                         .then(() => {
+                             }
                              collections.push({
                                  key: childSnapshot.key,
                                  items: items,
@@ -199,7 +198,6 @@ function getCollectionByKey(key) {
                                  isPrivate: childData.isPrivate,
                                  timestamp: childData.timestamp
                              })
-                             console.log(collections.length);
                          })
                          .catch((error) => reject(error));
                      colPromises.push(colPromise);
@@ -236,9 +234,12 @@ function getAllCollections() {
                              continue;
                          }
                          const reference = "/items/" + references[i];
-                         const itemPromise = firebase.database().ref(reference);
-                         itemPromise.once("value").
-                             then((snapshot) => {
+                         const itemPromise = firebase.database().ref(reference).once("value");
+                         itemPromises.push(itemPromise);
+                     }
+                     let colPromise = Promise.all(itemPromises)
+                         .then((itemsData) => {
+                             for (let snapshot of itemsData) {
                                  const item = snapshot.val();
                                  if (!item) {
                                      return;
@@ -247,14 +248,9 @@ function getAllCollections() {
                                      key: snapshot.key,
                                      image: item.image,
                                      href: item.href,
-                                     description: item.description,
-                                     rating: item.rating
+                                     description: item.description
                                  });
-                             });
-                         itemPromises.push(itemPromise);
-                     }
-                     let colPromise = Promise.all(itemPromises)
-                         .then(() => {
+                             }
                              collections.push({
                                  key: childSnapshot.key,
                                  items: items,
