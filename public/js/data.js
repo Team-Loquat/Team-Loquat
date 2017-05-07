@@ -42,13 +42,14 @@ function writeNewItem(collectionId, name, href, description ) {
      })
  }
 
-function writeNewCollection( items, type, description ) {
+function writeNewCollection( items, type, description, isPrivate ) {
      const _items = items || [];
      if (_items.length === 0 ) {
          _items.push( 'init' );
      }
      const _type = type || '';
      const _description = description || '';
+     const _isPrivate = isPrivate == true;
      var timestamp = new Date();
      timestamp = timestamp.getTime();
      var collectionData = {
@@ -56,7 +57,7 @@ function writeNewCollection( items, type, description ) {
          items: _items,
          colType: _type,
          description: _description,
-         isPrivate: true,
+         isPrivate: _isPrivate,
          timestamp: timestamp,
          author: firebase.auth().currentUser.email.split('@')[0]
      };
@@ -133,6 +134,7 @@ function getMyCollections() {
                              }
                              collections.push({
                                  key: childSnapshot.key,
+                                 author: childData.author,
                                  items: items,
                                  colType: childData.colType,
                                  description: childData.description,
@@ -192,6 +194,7 @@ function getCollectionByKey(key) {
                              }
                              collections.push({
                                  key: childSnapshot.key,
+                                 author: childData.author,
                                  items: items,
                                  colType: childData.colType,
                                  description: childData.description,
@@ -253,6 +256,7 @@ function getAllCollections() {
                              }
                              collections.push({
                                  key: childSnapshot.key,
+                                 author: childData.author,
                                  items: items,
                                  colType: childData.colType,
                                  description: childData.description,
