@@ -84,8 +84,9 @@ router
                     const items = [];
                     const type = $('#inputCollectionType').val();
                     const description = $('#inputCollectionDescription').val();
-
-                    data.writeNewCollection(items, type, description);
+                    const isPrivate =  !$('#isPublic').is(':checked');
+                     
+                    data.writeNewCollection(items, type, description, isPrivate);
 
                     router.navigate('#/collections/');
                 });

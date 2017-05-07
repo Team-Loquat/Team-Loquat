@@ -84,12 +84,17 @@ footer {
     margin-left: 35%;
     padding: 5%;
 }
+
 #collection-preview {
     margin: 1%;
     width: 25%;
     margin-left: 35%;
     padding: 5%;
 }
-#privacy-btns{
-    margin-left: 30%;
+
+#isPublic {
+    margin-left: 45%;
+}
+.isPublic {
+    margin-left: 35%;
 }
