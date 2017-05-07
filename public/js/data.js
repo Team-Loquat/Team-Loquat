@@ -216,7 +216,10 @@ function getCollectionByKey(key) {
  }
 
 function getAllCollections() {
-     const myId = firebase.auth().currentUser.uid;
+     let myId;
+     if (firebase.auth().currentUser) {
+         myId = firebase.auth().currentUser.uid;
+     }
      const collections = [];
      const query = firebase.database().ref("collections");
      const colPromises = [];
