@@ -23,7 +23,8 @@ System.config({
     'currentUserCollectionsController': 'js/controllers/currentUserCollectionsController.js',
     'createNewCollectionController': 'js/controllers/createNewCollectionController.js',
     'collectionManageController': 'js/controllers/collectionManageController.js',
-
+    'viewItemsController': 'js/controllers/viewItemsController.js',
+    
     // Library files
     'jquery': 'node_modules/jquery/dist/jquery.min.js',    
     'navigo': 'node_modules/navigo/lib/navigo.min.js',

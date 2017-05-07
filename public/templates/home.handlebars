@@ -5,8 +5,7 @@
         </h1>
     </div>
 </div>
-<hr>
- {{#each this}}
+<hr> {{#each this}}
 <div class="card" id="collection-preview">
     <div class="md-form">
         <p>Author: {{this.author}}</p>
@@ -22,7 +21,8 @@
         <p>Description: {{this.description}}</p>
     </div>
     <div class="md-form">
-        <button class="btn btn-brown">View items</button>
+        <button class="btn btn-brown collection-view-btn">View items</button>
+        <span class="hidden">{{this.key}}</span>
     </div>
 
 

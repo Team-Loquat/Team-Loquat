@@ -27,6 +27,9 @@ import {
 import {
     get as collectionManageController
 } from 'collectionManageController';
+import {
+    get as viewItemsController
+} from 'viewItemsController';
 
 const root = null;
 const useHash = false;
@@ -43,7 +46,16 @@ router
     })
     .on('/home', () => {
         $.when(homeController())
-            .then()
+            .then(() => {
+                    $('.collection-view-btn').click((ev) => {
+                        const key = $(ev.target).next().html();
+                        $('#key-container').html(key);
+
+                        router.navigate('#/view-items/');
+                    });
+                }
+
+            )
     })
     .on('/signin', () => {
         $.when(signInController())
@@ -76,10 +88,16 @@ router
 
                 $('.collection-delete-btn').click((ev) => {
                     const key = $(ev.target).prev().html();
-                    data.deleteCollection(key);              
+                    data.deleteCollection(key);
                     $(ev.target).parent().parent().remove();
                 });
 
+                $('.collection-view-btn').click((ev) => {
+                    const key = $(ev.target).next().next().html();
+                    $('#key-container').html(key);
+
+                    router.navigate('#/view-items/');
+                });
 
             })
     })
@@ -119,21 +137,21 @@ router
                         $.get(requestUrl).then((jsonData) => {
                             jsonData = Object.values(jsonData)[0].items[0];
 
-                            const durationMS= jsonData.duration_ms;
-                            const durationMin = (durationMS/1000/60) << 0;
-                            const durationSeconds = Math.floor((durationMS/1000) % 60);
+                            const durationMS = jsonData.duration_ms;
+                            const durationMin = (durationMS / 1000 / 60) << 0;
+                            const durationSeconds = Math.floor((durationMS / 1000) % 60);
                             const albumName = jsonData.album.name;
                             const artistName = jsonData.artists[0].name;
                             const description = 'Singer: ' + artistName + ' Duration: ' + durationMin + ':' + durationSeconds + ' From: "' + albumName + '" album';
-                               
+
                             const imageLink = jsonData.album.images[0].url;
-                            
+
                             data.writeNewItem(collectionId, jsonData.name, imageLink, description);
                         });
                     }
                     if (itemToSearchType.indexOf('book') >= 0) {
 
-                    }                
+                    }
 
                 })
             }).then(() => {
@@ -146,6 +164,10 @@ router
                     $(ev.target).parent().parent().remove();
                 });
             });
+    })
+    .on('/view-items', () => {
+        $.when(viewItemsController())
+            .then();
     })
     .on('/register', () => {
         $.when(registerController())
