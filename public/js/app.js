@@ -74,6 +74,12 @@ router
 
                 });
 
+                $('.collection-delete-btn').click((ev) => {
+                    const key = $(ev.target).prev().html();
+                    data.deleteCollection(key);              
+                    $(ev.target).parent().parent().remove();
+                });
+
 
             })
     })
