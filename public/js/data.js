@@ -81,7 +81,7 @@ function getMyItems() {
                      const childData = childSnapshot.val();
                      items.push({
                          key: childSnapshot.key,
-                         image: childData.image,
+                         name: childData.name,
                          href: childData.href,
                          description: childData.description,
                          rating: childData.rating
@@ -127,6 +127,7 @@ function getMyCollections() {
                                  }
                                  items.push({
                                      key: snapshot.key,
+                                     name: item.name,
                                      image: item.image,
                                      href: item.href,
                                      description: item.description
@@ -187,6 +188,7 @@ function getCollectionByKey(key) {
                                  }
                                  items.push({
                                      key: snapshot.key,
+                                     name: item.name,
                                      image: item.image,
                                      href: item.href,
                                      description: item.description
@@ -249,6 +251,7 @@ function getAllCollections() {
                                  }
                                  items.push({
                                      key: snapshot.key,
+                                     name: item.name,
                                      image: item.image,
                                      href: item.href,
                                      description: item.description
@@ -261,11 +264,10 @@ function getAllCollections() {
                                  colType: childData.colType,
                                  description: childData.description,
                                  isPrivate: childData.isPrivate,
-                                 timestamp: childData.timestamp,
-                                 author: childData.author
+                                 timestamp: childData.timestamp
                              })
                          })
-                         .catch( (error) => reject(error) )
+                         .catch( (error) => reject(error) );
                      colPromises.push(colPromise);
                  });
                  Promise.all( colPromises )
