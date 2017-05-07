@@ -225,8 +225,14 @@ function getAllCollections() {
              .then(function (snapshot) {
                  snapshot.forEach(function (childSnapshot) {
                      var childData = childSnapshot.val();
-                     if (childData.isPrivate && myId && childData.uid != myId) {
-                         return;
+                     if (myId) {
+                         if (childData.isPrivate && childData.uid != myId) {
+                             return;
+                         }
+                     } else {
+                         if (childData.isPrivate) {
+                             return;
+                         }
                      }
                      var items = [];
                      const itemPromises = [];
