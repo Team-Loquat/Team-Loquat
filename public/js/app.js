@@ -84,8 +84,8 @@ router
                     const items = [];
                     const type = $('#inputCollectionType').val();
                     const description = $('#inputCollectionDescription').val();
-                    const isPrivate =  !$('#isPublic').is(':checked');
-                     
+                    const isPrivate = !$('#isPublic').is(':checked');
+
                     data.writeNewCollection(items, type, description, isPrivate);
 
                     router.navigate('#/collections/');
@@ -95,23 +95,47 @@ router
     .on('/collection-manage/', () => {
         $.when(collectionManageController())
             .then(() => {
-                $('#item-add-btn').click(() => {
+                $('#item-add-btn').click((ev) => {
                     const collectionId = $('#key-container').html();
                     //console.log("collid" + '*' + collectionId)
                     const itemToSearch = $('#itemToSearch').val();
-                    // console.log(itemToSearch);
-                    const requestUrl = 'http://www.omdbapi.com/?t=';
-                    $.get(requestUrl + itemToSearch).then((jsonData) => {
-                        data.writeNewItem(collectionId, jsonData.Title, jsonData.Poster, jsonData.Plot);
-                    });
+                    const itemToSearchType = $('#itemToSearchLabel').html();
+
+                    if (itemToSearchType.indexOf('movie') >= 0) {
+                        const requestUrl = 'http://www.omdbapi.com/?t=';
+
+                        $.get(requestUrl + itemToSearch).then((jsonData) => {
+                            data.writeNewItem(collectionId, jsonData.Title, jsonData.Poster, jsonData.Plot);
+                        });
+                    }
+                    if (itemToSearchType.indexOf('song') >= 0) {
+                        const requestUrl = 'https://api.spotify.com/v1/search?q="' + itemToSearch + '"&type=track';
+                        $.get(requestUrl).then((jsonData) => {
+                            jsonData = Object.values(jsonData)[0].items[0];
+
+                            const durationMS= jsonData.duration_ms;
+                            const durationMin = (durationMS/1000/60) << 0;
+                            const durationSeconds = Math.floor((durationMS/1000) % 60);
+                            const albumName = jsonData.album.name;
+                            const artistName = jsonData.artists[0].name;
+                            const description = 'Singer: ' + artistName + ' Duration: ' + durationMin + ':' + durationSeconds + ' From: "' + albumName + '" album';
+                               
+                            const imageLink = jsonData.album.images[0].url;
+                            
+                            data.writeNewItem(collectionId, jsonData.name, imageLink, description);
+                        });
+                    }
+                    if (itemToSearchType.indexOf('book') >= 0) {
+
+                    }                
 
                 })
             }).then(() => {
                 $('.item-btn-delete').click((ev) => {
-                    
+
                     const collectionId = $('#key-container').html();
                     const itemKey = $('.item-btn-delete').next().html();
-                    
+
                     data.deleteItem(itemKey, collectionId);
                     $(ev.target).parent().parent().remove();
                 });
