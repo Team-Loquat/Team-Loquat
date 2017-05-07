@@ -5,31 +5,28 @@
         <button class="btn btn-default" id="item-add-btn">Add</button>
     </div>
 </div>
-<div>
- {{#each this.items}}
-  <div class="card">        
-        <!--Card image-->
-        <div class="view overlay hm-white-slight">             
-                <img src="{{this.Poster}}" class="img-fluid" alt="">          
-            <a href="#!">
-                <div class="mask"></div>
-            </a>
-        </div>
-        <!--/.Card image-->
 
-        <!--Card content-->
-        <div class="card-block">
-            <!--Title-->
-            <h4 class="card-title" id="coll-type">Name: {{this.name}}</h4>
-            <!--Text-->
-            <p class="card-text">{{this.description}}</p>             
-            <div class="read-more">                
-                <button class="btn btn-brown item-delete-btn">Delte</button>
-                <span class="hidden">{{this.key}}</span>
-            </div>
-        </div>
-        <!--/.Card content-->
+{{#each this.items}} {{!--
+<div class="card">
+    <span class="item-name-preview"> Name: {{this.name}}</span>
+    <img src="{{href}}" class="item-img-preview" />
+    <p class="item-description-preview">{{this.description}}</p>
+    <div class="buttons">
+        <button class="btn btn-danger item-btn-delete">Delete</button>
     </div>
-    <!--/.Card-->
- {{/each}}
+</div> --}}
+<div class="card" id="item-preview">
+    <div class="md-form">
+        <span class="item-name-preview"> Title: {{this.name}}</span>
+    </div>
+    <div class="md-form">
+        <img src="{{href}}" class="item-img-preview" />
+    </div>
+    <div class="md-form">
+        <p class="item-description-preview">{{this.description}}</p>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-danger item-btn-delete">Delete</button>
+    </div>
 </div>
+{{/each}}

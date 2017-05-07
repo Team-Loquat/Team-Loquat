@@ -10,8 +10,8 @@ body {
     margin-left: 30%;
     margin-top: 5%;
 }
- 
-.collection-manage-container{
+
+.collection-manage-container {
     width: 25%;
     margin-left: 35%;
 }
@@ -21,9 +21,12 @@ body {
         text-align: center;
     }
 }
+
+
 /*
     Navigation bar
 */
+
 .navbar {
     background-color: #0f6256;
 }
@@ -32,38 +35,59 @@ main {
     margin-top: 3rem;
 }
 
- 
-
-.card img{
-    height: 30%;
-    width: 30%;
-}
 
 /*
     Class for removing elements
 */
+
 .hidden {
     display: none;
 }
+
+
 /*
     Login notifications
 */
+
 #sign-in-status {
     padding: 15px;
 }
+
+
 /*
     Footer
 */
+
 footer.page-footer {
-    background-color: #0f6256;     
+    background-color: #0f6256;
+}
+
+footer {
     position: fixed;
-    width: 100%;    
+    width: 100%;
     top: 88%;
-} 
+}
+
+
 /*
     Sing in and Register forms positioning
 */
-#user-controls{
+
+#user-controls {
     margin-left: 20%;
-    margin-top: 20%;      
+    margin-top: 20%;
 }
+
+#item-preview {
+    margin: 1%;
+    width: 25%;
+    margin-left: 35%;
+    padding: 5%;
+}
+#collection-preview {
+    margin: 1%;
+    width: 25%;
+    margin-left: 35%;
+    padding: 5%;
+}
+ 
