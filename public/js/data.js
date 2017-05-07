@@ -225,7 +225,7 @@ function getAllCollections() {
              .then(function (snapshot) {
                  snapshot.forEach(function (childSnapshot) {
                      var childData = childSnapshot.val();
-                     if (childData.uid != myId && childData.isPrivate) {
+                     if (childData.isPrivate && myId && childData.uid != myId) {
                          return;
                      }
                      var items = [];
