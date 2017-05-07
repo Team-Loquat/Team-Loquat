@@ -8,6 +8,7 @@
 
 {{#each this.items}} 
 <div class="card" id="item-preview">
+    
     <div class="md-form">
         <span class="item-name-preview"> Title: {{this.name}}</span>
     </div>
@@ -19,6 +20,7 @@
     </div>
     <div class="text-center">
         <button class="btn btn-danger item-btn-delete">Delete</button>
+        <span class="hidden">{{this.key}}</span>
     </div>
 </div>
 {{/each}}

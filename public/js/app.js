@@ -98,13 +98,21 @@ router
                     const collectionId = $('#key-container').html();
                     //console.log("collid" + '*' + collectionId)
                     const itemToSearch = $('#itemToSearch').val();
-                   // console.log(itemToSearch);
+                    // console.log(itemToSearch);
                     const requestUrl = 'http://www.omdbapi.com/?t=';
-                    $.get(requestUrl + itemToSearch).then((jsonData) => {                         
-                         data.writeNewItem(collectionId, jsonData.Title, jsonData.Poster, jsonData.Plot);
+                    $.get(requestUrl + itemToSearch).then((jsonData) => {
+                        data.writeNewItem(collectionId, jsonData.Title, jsonData.Poster, jsonData.Plot);
                     });
-                    
+
                 })
+            }).then(() => {
+                $('.item-btn-delete').click(() => {
+                    const collectionId = $('#key-container').html();
+                    const itemKey = $('.item-btn-delete').next().html();
+                    console.log('test delete');
+                    data.deleteItem(itemKey, collectionId);
+                    $('.item-btn-delete').parent().parent().remove();
+                });
             });
     })
     .on('/register', () => {

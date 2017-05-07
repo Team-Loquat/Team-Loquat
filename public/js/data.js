@@ -332,5 +332,6 @@ function deleteItem (itemKey, collectionKey) {
      getMyCollections,
      getAllCollections,
      updateData,
-     getCollectionByKey
+     getCollectionByKey,
+     deleteItem
      };
