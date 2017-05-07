@@ -1,34 +1,30 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1 class="h1-responsive">
-                <small class="text-muted">Don't remember, collect!</small>
-            </h1>
-        </div>
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="h1-responsive">
+            <small class="text-muted">Don't remember, collect!</small>
+        </h1>
     </div>
-    <hr> {{#each this}}
-    <div class="card" id="collection-preview">
-        <div class="md-form">
-            <p>Author: {{this.author}}</p>
-        </div>
-        <div class="md-form">
-            <img src="imgs/movies-collection.gif" class="img-fluid" alt="">
-
-        </div>
-        <div class="md-form">
-            <span class="card-title" id="coll-type">Collection type: {{this.colType}}</span>
-        </div>
-        <div class="md-form">
-            <p>Description: {{this.description}}</p>
-        </div>
-        <div class="md-form">
-            <button class="btn btn-brown">View items</button>
-        </div>
-
-
-    </div>
-    <!--/.Card content-->
 </div>
-<!--/.Card-->
+<hr>
+ {{#each this}}
+<div class="card" id="collection-preview">
+    <div class="md-form">
+        <p>Author: {{this.author}}</p>
+    </div>
+    <div class="md-form">
+        <img src="imgs/movies-collection.gif" class="img-fluid" alt="">
+
+    </div>
+    <div class="md-form">
+        <span class="card-title" id="coll-type">Collection type: {{this.colType}}</span>
+    </div>
+    <div class="md-form">
+        <p>Description: {{this.description}}</p>
+    </div>
+    <div class="md-form">
+        <button class="btn btn-brown">View items</button>
+    </div>
+
+
+</div>
 {{/each}}
-</div>

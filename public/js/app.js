@@ -66,8 +66,8 @@ router
         $.when(currentUserCollectionsController())
             .then(() => {
 
-                $('.collection-manage-btn').click(() => {
-                    const key = $('.collection-manage-btn').next().html();
+                $('.collection-manage-btn').click((ev) => {
+                    const key = $(ev.target).next().html();
                     $('#key-container').html(key);
                     console.log(key);
                     router.navigate('#/collection-manage/');

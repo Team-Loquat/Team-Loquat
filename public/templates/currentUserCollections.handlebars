@@ -1,44 +1,37 @@
-<div class="container">
-
-    <!--Page heading-->
-    <div class="row">
-        <div class="col-md-12">
-            <h3 class="h3-responsive">Your collections:
-                <a href="#/user/*"><small>back to your profile controls</small></a>
-            </h3>
-        </div>
+<!--Page heading-->
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="h3-responsive">Your collections:
+            <a href="#/user/*"><small>back to your profile controls</small></a>
+        </h3>
     </div>
-
-    <hr> {{#each this}}
-    <div class="card" id="collection-preview">
-        <div class="md-form">
-            <p>Author: {{this.author}}</p>
-        </div>
-        <div class="md-form">
-            <img src="imgs/movies-collection.gif" class="img-fluid" alt="">
-
-        </div>
-        <div class="md-form">
-            <span class="card-title" id="coll-type">Collection type: {{this.colType}}</span>
-        </div>
-        <div class="md-form">
-            <p>Description: {{this.description}}</p>
-
-        </div>
-        <div class="md-form">
-            <button class="btn btn-brown">View items</button>
-            <button class="btn btn-brown collection-manage-btn">Manage</button>
-            <span class="hidden">{{this.key}}</span>
-        </div>
-
-
-    </div>
-    <!--/.Card content-->
 </div>
-<!--/.Card-->
+
+<hr> 
+{{#each this}}
+<div class="card" id="collection-preview">
+    <div class="md-form">
+        <p>Author: {{this.author}}</p>
+    </div>
+    <div class="md-form">
+        <img src="imgs/movies-collection.gif" class="img-fluid" alt="">
+
+    </div>
+    <div class="md-form">
+        <span class="card-title" id="coll-type">Collection type: {{this.colType}}</span>
+    </div>
+    <div class="md-form">
+        <p>Description: {{this.description}}</p>
+
+    </div>
+    <div class="md-form">
+        <button class="btn btn-brown">View items</button>
+        <button class="btn btn-brown collection-manage-btn">Manage</button>
+        <span class="hidden">{{this.key}}</span>
+    </div>
+
+
+</div> 
 {{/each}}
 
 <hr>
-
-
-</div>
