@@ -9,37 +9,36 @@
         </div>
     </div>
 
-    <hr>
-    {{#each this}}
-    <div class="card" id="collection-preview">        
-        <!--Card image-->
-        <div class="view overlay hm-white-slight">             
-                <img src="imgs/movies-collection.gif" class="img-fluid" alt="">          
-            <a href="#!">
-                <div class="mask"></div>
-            </a>
+    <hr> {{#each this}}
+    <div class="card" id="collection-preview">
+        <div class="md-form">
+            <p>Author: {{this.author}}</p>
         </div>
-        <!--/.Card image-->
+        <div class="md-form">
+            <img src="imgs/movies-collection.gif" class="img-fluid" alt="">
 
-        <!--Card content-->
-        <div class="card-block">
-            <!--Title-->
-            <h4 class="card-title" id="coll-type">Type: {{this.colType}}</h4>
-            <!--Text-->
-            <p class="card-text">{{this.description}}</p>
-            <p class="card-text">{{this.author}}</p>
-            <div class="read-more">
-                <button class="btn btn-brown">View items</button>
-                <button class="btn btn-brown collection-manage-btn">Manage</button>
-                <span class="hidden">{{this.key}}</span>
-            </div>
         </div>
-        <!--/.Card content-->
+        <div class="md-form">
+            <span class="card-title" id="coll-type">Collection type: {{this.colType}}</span>
+        </div>
+        <div class="md-form">
+            <p>Description: {{this.description}}</p>
+
+        </div>
+        <div class="md-form">
+            <button class="btn btn-brown">View items</button>
+            <button class="btn btn-brown collection-manage-btn">Manage</button>
+            <span class="hidden">{{this.key}}</span>
+        </div>
+
+
     </div>
-    <!--/.Card-->
-    {{/each}}
+    <!--/.Card content-->
+</div>
+<!--/.Card-->
+{{/each}}
 
-    <hr>
+<hr>
 
-     
+
 </div>
