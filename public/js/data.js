@@ -96,6 +96,7 @@ function getMyCollections() {
      const myId = firebase.auth().currentUser.uid;
      const collections = [];
      const query = firebase.database().ref("collections").orderByChild("uid").equalTo( myId );
+     const colPromises = [];
      return new Promise( (resolve, reject) => {
          query.once("value")
              .then(function (snapshot) {
@@ -129,7 +130,7 @@ function getMyCollections() {
                              });
                          itemPromises.push(itemPromise);
                      }
-                     Promise.all(itemPromises)
+                     let colPromise = Promise.all(itemPromises)
                          .then(() => {
                              collections.push({
                                  key: childSnapshot.key,
@@ -141,8 +142,11 @@ function getMyCollections() {
                              })
                          })
                          .catch((error) => reject(error));
+                     colPromises.push( colPromise );
                  });
-                 resolve(collections);
+                 Promise.all( colPromises )
+                     .then( () => resolve(collections))
+                     .catch((error) => reject(error));
              })
              .catch((error) => reject(error));
      });
@@ -152,6 +156,7 @@ function getCollectionByKey(key) {
      //const myId = firebase.auth().currentUser.uid;
      const collections = [];
      const query = firebase.database().ref("collections").orderByKey().equalTo(key);
+     const colPromises = [];
      return new Promise( (resolve, reject) => {
          query.once("value")
              .then(function (snapshot) {
@@ -184,7 +189,7 @@ function getCollectionByKey(key) {
                              });
                          itemPromises.push(itemPromise);
                      }
-                     Promise.all(itemPromises)
+                     let colPromise = Promise.all(itemPromises)
                          .then(() => {
                              collections.push({
                                  key: childSnapshot.key,
@@ -194,10 +199,14 @@ function getCollectionByKey(key) {
                                  isPrivate: childData.isPrivate,
                                  timestamp: childData.timestamp
                              })
+                             console.log(collections.length);
                          })
                          .catch((error) => reject(error));
+                     colPromises.push(colPromise);
                  });
-                 resolve(collections);
+                 Promise.all( colPromises )
+                    .then( () => resolve(collections))
+                    .catch((error) => reject(error));
              })
              .catch((error) => reject(error));
      });
@@ -207,6 +216,7 @@ function getAllCollections() {
      const myId = firebase.auth().currentUser.uid;
      const collections = [];
      const query = firebase.database().ref("collections");
+     const colPromises = [];
      return new Promise( (resolve, reject) => {
          query.once("value")
              .then(function (snapshot) {
@@ -243,7 +253,7 @@ function getAllCollections() {
                              });
                          itemPromises.push(itemPromise);
                      }
-                     Promise.all(itemPromises)
+                     let colPromise = Promise.all(itemPromises)
                          .then(() => {
                              collections.push({
                                  key: childSnapshot.key,
@@ -256,8 +266,11 @@ function getAllCollections() {
                              })
                          })
                          .catch( (error) => reject(error) )
+                     colPromises.push(colPromise);
                  });
-                 resolve(collections);
+                 Promise.all( colPromises )
+                     .then( () => resolve(collections))
+                     .catch((error) => reject(error));
              })
              .catch( (error) => reject(error) );
      });
