@@ -11,6 +11,10 @@ body {
     margin-top: 5%;
 }
  
+.collection-manage-container{
+    width: 25%;
+    margin-left: 35%;
+}
 
 @media only screen and (max-width: 768px) {
     .read-more {

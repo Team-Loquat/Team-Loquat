@@ -57,7 +57,7 @@ router
                 });
 
                 $("#view-collections").on('click', function () {
-                    router.navigate('/collections/');
+                    router.navigate('#/collections/');
                 });
 
             });
@@ -70,7 +70,7 @@ router
                     const key = $('.collection-manage-btn').next().html();
                     $('#key-container').html(key);
                     console.log(key);
-                    router.navigate('/collection-manage/');
+                    router.navigate('#/collection-manage/');
 
                 });
 
@@ -87,7 +87,7 @@ router
 
                     data.writeNewCollection(items, type, description);
 
-                    router.navigate('/collections/');
+                    router.navigate('#/collections/');
                 });
             });
     })
