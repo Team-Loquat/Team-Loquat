@@ -29,7 +29,7 @@ window.twttr = (function(d, s, id) {
 }(document, 'script', 'twitter-wjs'));
 
 // Google+
-( function loadGooglePlus() {
+(function loadGooglePlus() {
     let script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = 'https://apis.google.com/js/platform.js';
@@ -39,11 +39,9 @@ window.twttr = (function(d, s, id) {
 // Handlebars helpers
 Handlebars.registerHelper('facebook-btn', function(options) {
     return new Handlebars.SafeString(
-        `<div class="fb-share-button"
-             data-href="${options.fn(this)}"
-             data-layout="button_count"
-             data-size="large">
-         </div>`);
+        `<div class="fb-share-button" data-href={{options.fn(this)}} data-layout="button" data-size="large" data-mobile-iframe="true">
+        <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u="+{{options.fn(this)}}+";src=sdkpreparse">Share</a>
+        </div>`);
 });
 
 Handlebars.registerHelper('twitter-btn', function(options) {
