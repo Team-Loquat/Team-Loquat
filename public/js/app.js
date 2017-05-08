@@ -9,6 +9,7 @@ import * as data from 'data';
 
 // Helpers
 import {CONSTANTS as CONSTANTS} from 'constants';
+import {VALIDATOR as VALIDATOR} from 'validator';
 import 'facebookHelper';
 
 // Controllers
@@ -77,6 +78,7 @@ router
                     const key = $(ev.target).prev().html();
                     data.deleteCollection(key);
                     $(ev.target).parent().parent().remove();
+                    toastr.warning(CONSTANTS.COLLECTION_DELETED);
                 });
                 // Opens collection
                 $('.collection-view-btn').click((ev) => {
@@ -95,6 +97,10 @@ router
                     const items = [];
                     const type = $('#inputCollectionType').val();
                     const description = $('#inputCollectionDescription').val();
+
+                    VALIDATOR.checkIfValidCollectionType(type);
+                    VALIDATOR.checkIfValidCollectionDescription(description);
+
                     // This negation is for better UX, and isPrivate is easier to understand for us if that makes any sense
                     const isPrivate = !$('#isPublic').is(':checked');
 
@@ -114,13 +120,16 @@ router
 
                     const itemToSearch = $('#itemToSearch').val();
                     const itemToSearchType = $('#itemToSearchLabel').html();
-
+                    VALIDATOR.checkIfValidItemName(itemToSearch);
                     // Checks for the type of collection, so it can add proper item
                     if (itemToSearchType.indexOf('movie') >= 0) {
-                        const requestUrl = 'http://www.omdbapi.com/?t=';
+                        const requestUrl = 'http://www.omdbapi.com/?t="';
 
-                        $.get(requestUrl + itemToSearch).then((jsonData) => {
+                        $.get(requestUrl + itemToSearch + '"').then((jsonData) => {
+                            VALIDATOR.validateJsonObject(jsonData);
+
                             data.writeNewItem(collectionId, jsonData.Title, jsonData.Poster, jsonData.Plot);
+                            $('#itemToSearch').val('');
                             toastr.success(CONSTANTS.MOVIE_ADDED);
                         });
                     }
@@ -128,6 +137,7 @@ router
                         const requestUrl = 'https://api.spotify.com/v1/search?q="' + itemToSearch + '"&type=track';
                         $.get(requestUrl).then((jsonData) => {
                             // Data parser for spotify api
+                            VALIDATOR.validateJsonObject(jsonData);
                             jsonData = Object.values(jsonData)[0].items[0];
 
                             const durationMS = jsonData.duration_ms;
@@ -138,7 +148,7 @@ router
                             const description = 'Singer: ' + artistName + ' Duration: ' + durationMin + ':' + durationSeconds + ' From: "' + albumName + '" album';
 
                             const imageLink = jsonData.album.images[0].url;
-
+                            $('#itemToSearch').val('');
                             data.writeNewItem(collectionId, jsonData.name, imageLink, description);
                             toastr.success(CONSTANTS.SONG_ADDED);
                         });
@@ -146,6 +156,8 @@ router
                     if (itemToSearchType.indexOf('book') >= 0) {
                         $.ajax('https://www.googleapis.com/books/v1/volumes?q="' + itemToSearch + '"').then((jsonData) => {
                             // data parser for google api
+                            VALIDATOR.validateJsonObject(jsonData);
+
                             jsonData = Object.values(jsonData);
                             jsonData = jsonData[2][0].volumeInfo;
                             const title = jsonData.title;
@@ -153,6 +165,7 @@ router
                             const description = jsonData.description;
 
                             data.writeNewItem(collectionId, title, href, description);
+                            $('#itemToSearch').val('');
                             toastr.success(CONSTANTS.BOOK_ADDED);
                         });
                     }
@@ -161,13 +174,11 @@ router
                 // delete item
                 $('.item-btn-delete').click((ev) => {
                     const collectionId = $('#key-container').html();
-                    const itemKey = $('.item-btn-delete').next().html();
-
+                    const itemKey = $(ev.target).next().html();
                     data.deleteItem(itemKey, collectionId);
-
                     $(ev.target).parent().parent().remove();
 
-                    toastr.success(CONSTANTS.ITEM_DELETED);
+                    toastr.warning(CONSTANTS.ITEM_DELETED);
                 });
             });
     })

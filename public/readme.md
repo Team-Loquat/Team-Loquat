@@ -29,13 +29,15 @@ Collections application, where you can save your favorite movies, books and song
     * Name - Telerik Academy Profile - Github Profile
     * Vlado Vlaev - Vlaev - vlaevv
     * Nikolay Nachev - Nikolay.I.Nachev - 2NSoft
-    * Not contributed - Viktor Dimitrov - viktorDimitrov 
+    * Didn't contribute - Viktor Dimitrov - viktorDimitrov 
 
 # 6. Things we wanted to improve, but we didn't have time
     * Added items to show directly in collection without refresh
     * Better queries for more accurate results (more parameters)
     * More responsive and stylish user interface
     * Extract complex functions, into more simple and reusable small functions
-
+    * Use hash table to hide collection and item id's 
+    * Set up authentication settings for database instead of public
+    
 # 7. Demo in youtube
 [Link to youtube]()

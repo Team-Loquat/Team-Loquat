@@ -12,7 +12,8 @@ System.config({
         'data': 'js/data.js',
         'user': 'js/user.js',
         'constants': 'js/helpers/constants.js',
-        'facebookHelper' : 'js/helpers/facebookHelper.js',
+        'validator': 'js/helpers/validator.js',
+        'facebookHelper': 'js/helpers/facebookHelper.js',
 
         // Controllers
         'homeController': 'js/controllers/homeController.js',
@@ -31,10 +32,6 @@ System.config({
         'jquery': 'node_modules/jquery/dist/jquery.min.js',
         'navigo': 'node_modules/navigo/lib/navigo.min.js',
         'handlebars': 'node_modules/handlebars/dist/handlebars.min.js',
-
-        // Models
-        'validator': 'js/models/helpers/validator.js',
-        'item': 'js/models/item.js',
 
 
         // Firebase
