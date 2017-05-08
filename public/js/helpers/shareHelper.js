@@ -46,7 +46,7 @@ Handlebars.registerHelper('facebook-btn', function(options) {
          </div>`);
 });
 
-Handlebars.registerHelper('tweeter-btn', function(options) {
+Handlebars.registerHelper('twitter-btn', function(options) {
     return new Handlebars.SafeString(
         `<a class="twitter-share-button"
             href="https://twitter.com/intent/tweet?url=${options.fn(this)}"
