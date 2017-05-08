@@ -1,7 +1,12 @@
-//import 'jquery';
 import Navigo from 'navigo';
 import User from 'userController';
 import * as data from 'data';
+
+import {
+    CONSTANTS as CONSTANTS
+} from 'constants';
+
+//console.log(CONSTANTS.USER_SIGNED_OUT, CONSTANTS)
 
 import {
     get as homeController
@@ -130,7 +135,9 @@ router
 
                         $.get(requestUrl + itemToSearch).then((jsonData) => {
                             data.writeNewItem(collectionId, jsonData.Title, jsonData.Poster, jsonData.Plot);
+                            toastr.success(CONSTANTS.MOVIE_ADDED);
                         });
+
                     }
                     if (itemToSearchType.indexOf('song') >= 0) {
                         const requestUrl = 'https://api.spotify.com/v1/search?q="' + itemToSearch + '"&type=track';
@@ -147,6 +154,7 @@ router
                             const imageLink = jsonData.album.images[0].url;
 
                             data.writeNewItem(collectionId, jsonData.name, imageLink, description);
+                            toastr.success(CONSTANTS.SONG_ADDED);
                         });
                     }
                     if (itemToSearchType.indexOf('book') >= 0) {
@@ -160,6 +168,7 @@ router
                             const description = jsonData.description;
 
                             data.writeNewItem(collectionId, title, href, description);
+                            toastr.success(CONSTANTS.BOOK_ADDED);
                         })
                     }
 
@@ -171,7 +180,10 @@ router
                     const itemKey = $('.item-btn-delete').next().html();
 
                     data.deleteItem(itemKey, collectionId);
+
                     $(ev.target).parent().parent().remove();
+
+                    toastr.success(CONSTANTS.ITEM_DELETED);
                 });
             });
     })
@@ -193,6 +205,7 @@ User.initAuthStatusChange();
 $('#sign-in-btn').click(() => {
     if ($('#sign-in-btn').text() === 'Sign out') {
         User.signOut();
+        toastr.success(CONSTANTS.USER_SIGNED_OUT);
     }
 });
 

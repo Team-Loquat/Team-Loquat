@@ -1,5 +1,8 @@
 import * as firebase from 'firebase';
 import { router as router} from 'app';
+import {
+    CONSTANTS as CONSTANTS
+} from 'constants';
 
 export default class User {
 
@@ -20,15 +23,16 @@ export default class User {
                     onError(error);
                 } else {
                     if (errorCode == 'auth/weak-password') {
-                        alert('The password is too weak.');
+                        toastr.error(CONSTANTS.WEAK_PASSWORD);
                     } else {
-                        alert(errorMessage);
+                        toastr.error(errorMessage);
                     }
                 }
             })
             .then(() => {
                 firebase.auth().signInWithEmailAndPassword(email, password);
                 if (onSuccess) {
+                    toastr.success(CONSTANTS.USER_SIGNED_IN);
                     onSuccess();
 
                 }
@@ -46,11 +50,14 @@ export default class User {
                 $('#sign-in-btn').text('Sign out');
                 if (!emailVerified) {
                     $('#verify-btn').removeClass('hidden');
-                    $('#verify-btn').click(User.verifyAcocunt);
+                    $('#verify-btn').click( () => {                        
+                        User.verifyAcocunt();
+                        toastr.success(CONSTANTS.VERIFICATION_EMAIL_SENT);
+                    });
                 }
                 const routeId = '#/user/' + User.currentUser().email.split('@')[0];
                 router.navigate(routeId);
-
+                toastr.warning(CONSTANTS.USER_REDIRECTED_TO_PROFILE);
                 $('#profile-btn').attr('href', routeId).removeClass('hidden');
                 
             } else {
