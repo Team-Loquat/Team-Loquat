@@ -9,7 +9,7 @@ import * as data from 'data';
 
 // Helpers
 import {CONSTANTS as CONSTANTS} from 'constants';
-import 'shareHelper';
+import 'facebookHelper';
 
 // Controllers
 import {get as homeController} from 'homeController';

@@ -12,7 +12,7 @@ System.config({
         'data': 'js/data.js',
         'user': 'js/user.js',
         'constants': 'js/helpers/constants.js',
-        'shareHelper' : 'js/helpers/shareHelper.js',
+        'facebookHelper' : 'js/helpers/facebookHelper.js',
 
         // Controllers
         'homeController': 'js/controllers/homeController.js',
