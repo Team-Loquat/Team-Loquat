@@ -174,6 +174,10 @@ router
         $.when(viewItemsController())
             .then();
     })
+    .on('/view-items/:collectionID', (params) => {
+        $.when(viewItemsController(params))
+            .then();
+    })
     .on('/register', () => {
         $.when(registerController())
             .then();

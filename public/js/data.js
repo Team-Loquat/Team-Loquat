@@ -218,10 +218,10 @@ function getCollectionByKey(key) {
 
 // gets all public collections
 function getAllCollections() {
-    // let myId;
-    // if (firebase.auth().currentUser) {
-    //     myId = firebase.auth().currentUser.uid;
-    // }
+     let myId;
+     if (firebase.auth().currentUser) {
+         myId = firebase.auth().currentUser.uid;
+     }
     const collections = [];
     const query = firebase.database().ref('collections');
     const colPromises = [];
@@ -230,15 +230,15 @@ function getAllCollections() {
             .then(function(snapshot) {
                 snapshot.forEach(function(childSnapshot) {
                     let childData = childSnapshot.val();
-                    // if (myId) {
-                    //     if (childData.isPrivate && childData.uid != myId) {
-                    //         return;
-                    //     }
-                    // } else {
-                    //     if (childData.isPrivate) {
-                    //         return;
-                    //     }
-                    // }
+                     if (myId) {
+                         if (childData.isPrivate && childData.uid != myId) {
+                             return;
+                         }
+                     } else {
+                         if (childData.isPrivate) {
+                             return;
+                         }
+                     }
                     let items = [];
                     const itemPromises = [];
                     let references = childData.items;
