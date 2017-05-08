@@ -1,0 +1,39 @@
+{
+    "env": {
+        "es6": true
+
+    },
+    "extends": ["eslint:recommended", "google"],
+    "rules": {
+        // Additional, per-project rules...
+        "indent": [
+            "error",
+            4
+        ],
+        "no-console": "off",
+        "linebreak-style": [
+            "error",
+            "windows"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "max-len": [2, 180, 4, {"ignoreUrls": true}],
+        "require-jsdoc": ["error", {
+        "require": {
+            "FunctionDeclaration": false,
+            "MethodDefinition": false,
+            "ClassDeclaration": false,
+            "ArrowFunctionExpression": false
+        }
+    }]
+    },
+    "parserOptions": {
+        "sourceType": "module"
+    }
+}

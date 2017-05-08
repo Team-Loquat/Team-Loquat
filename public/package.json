@@ -17,5 +17,9 @@
     "systemjs": "^0.20.12",
     "systemjs-plugin-babel": "0.0.21",
     "toastr": "^2.1.2"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.7.1"
   }
 }

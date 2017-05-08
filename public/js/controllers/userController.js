@@ -1,23 +1,22 @@
+/* globals $ toastr */
 import * as firebase from 'firebase';
-import { router as router} from 'app';
-import {
-    CONSTANTS as CONSTANTS
-} from 'constants';
+import {router as router} from 'app';
+import {CONSTANTS as CONSTANTS} from 'constants';
 
 export default class User {
 
     static currentUser() {
         return {
             email: firebase.auth().currentUser.email,
-            uid: firebase.auth().currentUser.uid
-        }
+            uid: firebase.auth().currentUser.uid,
+        };
     }
 
     static registerUser(email, password, onSuccess, onError) {
         firebase.auth().createUserWithEmailAndPassword(email, password)
-            .catch(function (error) {
-                var errorCode = error.code;
-                var errorMessage = error.message;
+            .catch(function(error) {
+                let errorCode = error.code;
+                let errorMessage = error.message;
 
                 if (onError) {
                     onError(error);
@@ -31,67 +30,71 @@ export default class User {
             })
             .then(() => {
                 firebase.auth().signInWithEmailAndPassword(email, password);
+
                 if (onSuccess) {
                     toastr.success(CONSTANTS.USER_SIGNED_IN);
                     onSuccess();
-
                 }
             });
     }
 
     static initAuthStatusChange() {
-        firebase.auth().onAuthStateChanged(function (user) {
+        firebase.auth().onAuthStateChanged(function(user) {
             $('#verify-btn').addClass('hidden');
             if (user) {
-                var email = user.email;
-                var emailVerified = user.emailVerified;
+                let email = user.email;
+                let emailVerified = user.emailVerified;
+
                 $('#sign-in-status').text(`Signed in with ${email}`);
                 $('#register-btn').addClass('hidden');
                 $('#sign-in-btn').text('Sign out');
+
                 if (!emailVerified) {
                     $('#verify-btn').removeClass('hidden');
-                    $('#verify-btn').click( () => {                        
+                    $('#verify-btn').click( () => {
                         User.verifyAcocunt();
-                        toastr.success(CONSTANTS.VERIFICATION_EMAIL_SENT);
                     });
                 }
+
                 const routeId = '#/user/' + User.currentUser().email.split('@')[0];
                 router.navigate(routeId);
+
                 toastr.warning(CONSTANTS.USER_REDIRECTED_TO_PROFILE);
+
                 $('#profile-btn').attr('href', routeId).removeClass('hidden');
-                
             } else {
                 $('#sign-in-status').text('Signed out');
                 $('#sign-in-btn').text('Sign in');
                 $('#register-btn').removeClass('hidden');
-                $('#profile-btn').addClass('hidden').attr('href', '');                            
+                $('#profile-btn').addClass('hidden').attr('href', '');
             }
         });
     }
 
     static verifyAcocunt() {
         firebase.auth().currentUser.sendEmailVerification()
-            .then(() => alert(`Verification e-mail sent to ${User.currentUser().email}`))
-            .catch(() => alert('Something went wrong. Please try again!'));
+            .then(() => toastr.warning(CONSTANTS.VERIFICATION_EMAIL_SENT + User.currentUser().email))
+            .catch(() => toastr.error(CONSTANTS.VERFICATION_EMAIL_WENT_WRONG));
     }
 
     static signOut() {
         firebase.auth().signOut()
-            .catch(() => alert('Something went wrong. Please try again!'));
+            .catch(() => toastr.error(CONSTANTS.USER_SIGNED_OUT_ERROR));
     }
 
     static signIn(email, password, onSuccess, onError) {
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .catch(error => {
+            .catch((error) => {
                 if (onError) {
                     onError(error);
                 } else {
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
+                    let errorCode = error.code;
+                    let errorMessage = error.message;
+
                     if (errorCode === 'auth/wrong-password') {
-                        alert('Wrong password.');
+                        toastr.error(CONSTANTS.USER_WRONG_PASSWORD);
                     } else {
-                        alert(errorMessage);
+                        toastr.error(errorMessage);
                     }
                 }
             })

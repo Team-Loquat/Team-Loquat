@@ -1,34 +1,29 @@
 import * as firebase from 'firebase';
-import {
-    db as firebaseDB
-} from 'firebaseConfig';
-import Validator from 'validator';
+import {db as firebaseDB} from 'firebaseConfig';
 
-
-const defaultRef = firebaseDB.ref('data/');
-const usersRef = defaultRef.child('users');
-
+// writes new item to database
 function writeNewItem(collectionId, name, href, description) {
     const _name = name || '';
     const _href = href || '';
     const _description = description || '';
-    var itemData = {
+
+    const itemData = {
         uid: firebase.auth().currentUser.uid,
         name: _name,
         href: _href,
-        description: _description
+        description: _description,
     };
 
-    var newItemKey = firebase.database().ref().child('items').push().key;
+    const newItemKey = firebase.database().ref().child('items').push().key;
 
-    var updates = {};
+    let updates = {};
     updates['/items/' + newItemKey] = itemData;
 
     return new Promise((resolve, reject) => {
         firebase.database().ref().update(updates)
             .then(() => {
                 const collectionRef = firebase.database().ref('collections/' + collectionId);
-                collectionRef.once("value")
+                collectionRef.once('value')
                     .then((snapshot) => {
                         const collection = snapshot.val();
                         collection.items.push(newItemKey);
@@ -36,74 +31,79 @@ function writeNewItem(collectionId, name, href, description) {
                             .then((result) => resolve(result))
                             .catch((error) => reject(error));
                     })
-                    .catch((error) => reject(error))
+                    .catch((error) => reject(error));
             })
             .catch((error) => reject(error));
-    })
+    });
 }
 
+// writes new collection to database
 function writeNewCollection(items, type, description, isPrivate) {
     const _items = items || [];
+
+    // adds initial item, because otherwise firebase doesn't show empty objects
     if (_items.length === 0) {
         _items.push('init');
     }
     const _type = type || '';
     const _description = description || '';
     const _isPrivate = isPrivate == true;
-    var timestamp = new Date();
+    let timestamp = new Date();
     timestamp = timestamp.getTime();
-    var collectionData = {
+    let collectionData = {
         uid: firebase.auth().currentUser.uid,
         items: _items,
         colType: _type,
         description: _description,
         isPrivate: _isPrivate,
         timestamp: timestamp,
-        author: firebase.auth().currentUser.email.split('@')[0]
+        author: firebase.auth().currentUser.email.split('@')[0],
     };
 
-    var newCollectionKey = firebase.database().ref().child('collections').push().key;
+    let newCollectionKey = firebase.database().ref().child('collections').push().key;
 
-    var updates = {};
+    let updates = {};
     updates['/collections/' + newCollectionKey] = collectionData;
 
     return firebase.database().ref().update(updates);
 }
 
+// gets current user items
 function getMyItems() {
     const myId = firebase.auth().currentUser.uid;
     const items = [];
-    const query = firebase.database().ref("items").orderByChild("uid").equalTo(myId);
+    const query = firebase.database().ref('items').orderByChild('uid').equalTo(myId);
     return new Promise((resolve, reject) => {
-        query.once("value")
-            .then(function (snapshot) {
-                snapshot.forEach(function (childSnapshot) {
+        query.once('value')
+            .then(function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
                     const childData = childSnapshot.val();
                     items.push({
                         key: childSnapshot.key,
                         name: childData.name,
                         href: childData.href,
                         description: childData.description,
-                        rating: childData.rating
-                    })
-                });
+                        rating: childData.rating,
+                    });
+                }).
                 resolve(items);
             })
             .catch((error) => reject(error));
     });
 }
 
+// gets current user collections
 function getMyCollections() {
     const myId = firebase.auth().currentUser.uid;
     const collections = [];
-    const query = firebase.database().ref("collections").orderByChild("uid").equalTo(myId);
+    const query = firebase.database().ref('collections').orderByChild('uid').equalTo(myId);
     const colPromises = [];
     return new Promise((resolve, reject) => {
-        query.once("value")
-            .then(function (snapshot) {
-                snapshot.forEach(function (childSnapshot) {
-                    var childData = childSnapshot.val();
-                    var items = [];
+        query.once('value')
+            .then(function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    let childData = childSnapshot.val();
+                    let items = [];
                     const itemPromises = [];
                     let references = childData.items;
                     if (!references) {
@@ -113,8 +113,8 @@ function getMyCollections() {
                         if (references[i] === 'init') {
                             continue;
                         }
-                        const reference = "/items/" + references[i];
-                        const itemPromise = firebase.database().ref(reference).once("value");
+                        const reference = '/items/' + references[i];
+                        const itemPromise = firebase.database().ref(reference).once('value');
 
                         itemPromises.push(itemPromise);
                     }
@@ -130,7 +130,7 @@ function getMyCollections() {
                                     name: item.name,
                                     image: item.image,
                                     href: item.href,
-                                    description: item.description
+                                    description: item.description,
                                 });
                             }
                             collections.push({
@@ -140,8 +140,8 @@ function getMyCollections() {
                                 colType: childData.colType,
                                 description: childData.description,
                                 isPrivate: childData.isPrivate,
-                                timestamp: childData.timestamp
-                            })
+                                timestamp: childData.timestamp,
+                            });
                         })
                         .catch((error) => reject(error));
                     colPromises.push(colPromise);
@@ -155,16 +155,17 @@ function getMyCollections() {
 }
 
 function getCollectionByKey(key) {
-    //const myId = firebase.auth().currentUser.uid;
+    // const myId = firebase.auth().currentUser.uid;
+
     const collections = [];
-    const query = firebase.database().ref("collections").orderByKey().equalTo(key);
+    const query = firebase.database().ref('collections').orderByKey().equalTo(key);
     const colPromises = [];
     return new Promise((resolve, reject) => {
-        query.once("value")
-            .then(function (snapshot) {
-                snapshot.forEach(function (childSnapshot) {
-                    var childData = childSnapshot.val();
-                    var items = [];
+        query.once('value')
+            .then(function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    let childData = childSnapshot.val();
+                    let items = [];
                     const itemPromises = [];
                     let references = childData.items;
                     if (!references) {
@@ -174,8 +175,8 @@ function getCollectionByKey(key) {
                         if (references[i] === 'init') {
                             continue;
                         }
-                        const reference = "/items/" + references[i];
-                        const itemPromise = firebase.database().ref(reference).once("value");
+                        const reference = '/items/' + references[i];
+                        const itemPromise = firebase.database().ref(reference).once('value');
 
                         itemPromises.push(itemPromise);
                     }
@@ -191,7 +192,7 @@ function getCollectionByKey(key) {
                                     name: item.name,
                                     image: item.image,
                                     href: item.href,
-                                    description: item.description
+                                    description: item.description,
                                 });
                             }
                             collections.push({
@@ -201,8 +202,8 @@ function getCollectionByKey(key) {
                                 colType: childData.colType,
                                 description: childData.description,
                                 isPrivate: childData.isPrivate,
-                                timestamp: childData.timestamp
-                            })
+                                timestamp: childData.timestamp,
+                            });
                         })
                         .catch((error) => reject(error));
                     colPromises.push(colPromise);
@@ -215,19 +216,20 @@ function getCollectionByKey(key) {
     });
 }
 
+// gets all public collections
 function getAllCollections() {
     // let myId;
     // if (firebase.auth().currentUser) {
     //     myId = firebase.auth().currentUser.uid;
     // }
     const collections = [];
-    const query = firebase.database().ref("collections");
+    const query = firebase.database().ref('collections');
     const colPromises = [];
     return new Promise((resolve, reject) => {
-        query.once("value")
-            .then(function (snapshot) {
-                snapshot.forEach(function (childSnapshot) {
-                    var childData = childSnapshot.val();
+        query.once('value')
+            .then(function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    let childData = childSnapshot.val();
                     // if (myId) {
                     //     if (childData.isPrivate && childData.uid != myId) {
                     //         return;
@@ -237,7 +239,7 @@ function getAllCollections() {
                     //         return;
                     //     }
                     // }
-                    var items = [];
+                    let items = [];
                     const itemPromises = [];
                     let references = childData.items;
                     if (!references) {
@@ -247,8 +249,8 @@ function getAllCollections() {
                         if (references[i] === 'init') {
                             continue;
                         }
-                        const reference = "/items/" + references[i];
-                        const itemPromise = firebase.database().ref(reference).once("value");
+                        const reference = '/items/' + references[i];
+                        const itemPromise = firebase.database().ref(reference).once('value');
                         itemPromises.push(itemPromise);
                     }
                     let colPromise = Promise.all(itemPromises)
@@ -263,7 +265,7 @@ function getAllCollections() {
                                     name: item.name,
                                     image: item.image,
                                     href: item.href,
-                                    description: item.description
+                                    description: item.description,
                                 });
                             }
                             collections.push({
@@ -273,8 +275,8 @@ function getAllCollections() {
                                 colType: childData.colType,
                                 description: childData.description,
                                 isPrivate: childData.isPrivate,
-                                timestamp: childData.timestamp
-                            })
+                                timestamp: childData.timestamp,
+                            });
                         })
                         .catch((error) => reject(error));
                     colPromises.push(colPromise);
@@ -287,7 +289,7 @@ function getAllCollections() {
     });
 }
 
-//function updateData( key , values ) {
+// function updateData( key , values ) {
 //    //Validator.validateUpdateData( key, values );
 //    const reference = values.dataType + '/' + key;
 //    const ref = firebase.database().ref( reference );
@@ -316,7 +318,7 @@ function getAllCollections() {
 //            })
 //            .catch( (error) => reject(error) );
 //    });
-//}
+// }
 
 function deleteItem(itemKey, collectionKey) {
     return new Promise((resolve, reject) => {
@@ -376,5 +378,5 @@ export {
     //     updateData,
     getCollectionByKey,
     deleteItem,
-    deleteCollection
+    deleteCollection,
 };

@@ -2,31 +2,9 @@ html,
 body {
     margin: 0;
     height: 100%;
-}
+} 
 
-.centered {
-    height: 15%;
-    width: 25%;
-    margin-left: 30%;
-    margin-top: 5%;
-}
-
-.collection-manage-container {
-    width: 25%;
-    margin-left: 35%;
-}
-
-@media only screen and (max-width: 768px) {
-    .read-more {
-        text-align: center;
-    }
-}
-
-
-/*
-    Navigation bar
-*/
-
+/* Navigation bar */
 .navbar {
     background-color: #0f6256;
 }
@@ -34,48 +12,51 @@ body {
 main {
     margin-top: 3rem;
 }
-
-
-/*
-    Class for removing elements
-*/
-
-.hidden {
-    display: none;
+/* Home and User Collections Headings*/ 
+.page-title{
+    margin-left: 34%;
+}
+.page-title-user{
+    margin-left: 30%;
+}
+/* Register Sign In and Create Collection forms */
+.centered {
+    height: 15%;
+    width: 25%;
+    margin-left: 30%;
+    margin-top: 5%;
 }
 
+/* Create collection isPublic checkbox styles */ 
+#isPublic {
+    margin-left: 45%;
+}
+.isPublic {
+    margin-left: 35%;
+}
 
-/*
-    Login notifications
-*/
+/* Sing in and Register forms positioning */
+#user-controls {
+    margin-left: 20%;
+    margin-top: 20%;
+}
 
+/* Login status badge */
 #sign-in-status {
     padding: 15px;
 }
 
-
-/*
-    Footer
-*/
-
-footer.page-footer {
-    background-color: #0f6256;
+.collection-manage-container {
+    width: 25%;
+    margin-left: 35%;
 }
 
-footer {
-    position: fixed;
-    width: 100%;
-    top: 88%;
-}
-
-
-/*
-    Sing in and Register forms positioning
-*/
-
-#user-controls {
-    margin-left: 20%;
-    margin-top: 20%;
+/* Preview styles for collections and items */
+#collection-preview {
+    margin: 1%;
+    width: 25%;
+    margin-left: 35%;
+    padding: 5%;
 }
 
 #item-preview {
@@ -85,16 +66,18 @@ footer {
     padding: 5%;
 }
 
-#collection-preview {
-    margin: 1%;
-    width: 25%;
-    margin-left: 35%;
-    padding: 5%;
+/* Class for removing elements */
+.hidden {
+    display: none;
 }
 
-#isPublic {
-    margin-left: 45%;
+/* Footer */
+footer {
+    position: fixed;
+    width: 100%;
+    top: 88%;
 }
-.isPublic {
-    margin-left: 35%;
+
+footer.page-footer {
+    background-color: #0f6256;
 }

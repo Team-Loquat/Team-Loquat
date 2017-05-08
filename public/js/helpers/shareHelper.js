@@ -1,23 +1,23 @@
 import Handlebars from 'handlebars';
 
-//facebook plugin
+// facebook plugin
 (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
+    let js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     js = d.createElement(s);
     js.id = id;
-    js.src = "//connect.facebook.net/bg_BG/sdk.js#xfbml=1&version=v2.9";
+    js.src = '//connect.facebook.net/bg_BG/sdk.js#xfbml=1&version=v2.9';
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-//twitter widget
+// twitter widget
 window.twttr = (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0],
+    let js, fjs = d.getElementsByTagName(s)[0],
         t = window.twttr || {};
     if (d.getElementById(id)) return t;
     js = d.createElement(s);
     js.id = id;
-    js.src = "https://platform.twitter.com/widgets.js";
+    js.src = 'https://platform.twitter.com/widgets.js';
     fjs.parentNode.insertBefore(js, fjs);
 
     t._e = [];
@@ -26,17 +26,17 @@ window.twttr = (function(d, s, id) {
     };
 
     return t;
-}(document, "script", "twitter-wjs"));
+}(document, 'script', 'twitter-wjs'));
 
-//Google+
+// Google+
 ( function loadGooglePlus() {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = "https://apis.google.com/js/platform.js";
-    document.getElementsByTagName("head")[0].appendChild(script);
+    let script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://apis.google.com/js/platform.js';
+    document.getElementsByTagName('head')[0].appendChild(script);
 }());
 
-//Handlebars helpers
+// Handlebars helpers
 Handlebars.registerHelper('facebook-btn', function(options) {
     return new Handlebars.SafeString(
         `<div class="fb-share-button"

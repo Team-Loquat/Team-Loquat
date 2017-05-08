@@ -1,21 +1,18 @@
-import {
-    load as loadTemplate
-} from 'templates';
-import User from 'userController';
+/* globals $ */
+
+import {load as loadTemplate} from 'templates';
 import * as data from 'data';
 
 const $appContainer = $('#app-container');
 
-
 export function get(params) {
     return new Promise((resolve, reject) => {
         data.getMyCollections().then((collections) => {
-            
             resolve(loadTemplate('currentUserCollections', collections)
-                .then(template => {
+                .then((template) => {
                     $appContainer.html(template);
                 })
-            )
+            );
         });
     });
 }

@@ -1,11 +1,13 @@
-import { load as loadTemplate } from 'templates';
+/* globals $ */
 
-const $appContainer = $('#app-container'); 
+import {load as loadTemplate} from 'templates';
+
+const $appContainer = $('#app-container');
 
 export function get(params) {
     return new Promise((resolve, reject) => {
         resolve(loadTemplate('invalid')
-            .then(template => {
+            .then((template) => {
                 $appContainer.html(template);
             }));
     });

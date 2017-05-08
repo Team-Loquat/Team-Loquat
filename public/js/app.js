@@ -1,66 +1,49 @@
+/* globals $ toastr */
+
+// Routers
 import Navigo from 'navigo';
+
+// Users and data
 import User from 'userController';
 import * as data from 'data';
 
-import {
-    CONSTANTS as CONSTANTS
-} from 'constants';
+// Helpers
+import {CONSTANTS as CONSTANTS} from 'constants';
 
-//console.log(CONSTANTS.USER_SIGNED_OUT, CONSTANTS)
+// Controllers
+import {get as homeController} from 'homeController';
+import {get as invalidController} from 'invalidController';
+import {get as registerController} from 'registerController';
+import {get as signInController} from 'signInController';
+import {get as currentUserController} from 'currentUserController';
+import {get as currentUserCollectionsController} from 'currentUserCollectionsController';
+import {get as createNewCollectionController} from 'createNewCollectionController';
+import {get as collectionManageController} from 'collectionManageController';
+import {get as viewItemsController} from 'viewItemsController';
 
-import {
-    get as homeController
-} from 'homeController';
-import {
-    get as invalidController
-} from 'invalidController';
-import {
-    get as registerController
-} from 'registerController';
-import {
-    get as signInController
-} from 'signInController';
-import {
-    get as currentUserController
-} from 'currentUserController';
-import {
-    get as currentUserCollectionsController
-} from 'currentUserCollectionsController';
-import {
-    get as createNewCollectionController
-} from 'createNewCollectionController';
-import {
-    get as collectionManageController
-} from 'collectionManageController';
-import {
-    get as viewItemsController
-} from 'viewItemsController';
-
+// Navigo setup
 const root = null;
 const useHash = false;
 const hash = '#!';
-
 const router = new Navigo(root, useHash, hash);
 
-const keys = [];
-
+// Setting up routes
 router
     .on('/', () => {
-        $.when(homeController())
-            .then();
+        router.navigate('#/home');
     })
     .on('/home', () => {
         $.when(homeController())
             .then(() => {
-                    $('.collection-view-btn').click((ev) => {
-                        const key = $(ev.target).next().html();
-                        $('#key-container').html(key);
+                // Opens collection
+                $('.collection-view-btn').click((ev) => {
+                    // Sets up key so we can check in which collection we are
+                    const key = $(ev.target).next().html();
+                    $('#key-container').html(key);
 
-                        router.navigate('#/view-items/');
-                    });
-                }
-
-            )
+                    router.navigate('#/view-items/');
+                });
+            });
     })
     .on('/signin', () => {
         $.when(signInController())
@@ -69,50 +52,49 @@ router
     .on('/user/*', () => {
         $.when(currentUserController())
             .then(() => {
-                $("#new-collection").on('click', function () {
+                $('#new-collection').on('click', function() {
                     router.navigate('#/create-collection/');
                 });
 
-                $("#view-collections").on('click', function () {
+                $('#view-collections').on('click', function() {
                     router.navigate('#/collections/');
                 });
-
             });
     })
     .on('/collections/', () => {
         $.when(currentUserCollectionsController())
             .then(() => {
-
                 $('.collection-manage-btn').click((ev) => {
+                    // Sets collection key, so know in which collection we are
                     const key = $(ev.target).next().html();
                     $('#key-container').html(key);
-                    console.log(key);
+
                     router.navigate('#/collection-manage/');
-
                 });
-
+                // Deletes collection
                 $('.collection-delete-btn').click((ev) => {
                     const key = $(ev.target).prev().html();
                     data.deleteCollection(key);
                     $(ev.target).parent().parent().remove();
                 });
-
+                // Opens collection
                 $('.collection-view-btn').click((ev) => {
                     const key = $(ev.target).next().next().html();
                     $('#key-container').html(key);
 
                     router.navigate('#/view-items/');
                 });
-
-            })
+            });
     })
     .on('/create-collection/', () => {
         $.when(createNewCollectionController())
             .then(() => {
-                $("#create-collection-btn").on('click', function () {
+                // Creates new collection
+                $('#create-collection-btn').on('click', function() {
                     const items = [];
                     const type = $('#inputCollectionType').val();
                     const description = $('#inputCollectionDescription').val();
+                    // This negation is for better UX, and isPrivate is easier to understand for us if that makes any sense
                     const isPrivate = !$('#isPublic').is(':checked');
 
                     data.writeNewCollection(items, type, description, isPrivate);
@@ -121,15 +103,18 @@ router
                 });
             });
     })
+    // Opens collection controls where user can add new items and remove old ones
     .on('/collection-manage/', () => {
         $.when(collectionManageController())
             .then(() => {
+                // Adds item
                 $('#item-add-btn').click((ev) => {
                     const collectionId = $('#key-container').html();
-                    //console.log("collid" + '*' + collectionId)
+
                     const itemToSearch = $('#itemToSearch').val();
                     const itemToSearchType = $('#itemToSearchLabel').html();
 
+                    // Checks for the type of collection, so it can add proper item
                     if (itemToSearchType.indexOf('movie') >= 0) {
                         const requestUrl = 'http://www.omdbapi.com/?t=';
 
@@ -137,11 +122,11 @@ router
                             data.writeNewItem(collectionId, jsonData.Title, jsonData.Poster, jsonData.Plot);
                             toastr.success(CONSTANTS.MOVIE_ADDED);
                         });
-
                     }
                     if (itemToSearchType.indexOf('song') >= 0) {
                         const requestUrl = 'https://api.spotify.com/v1/search?q="' + itemToSearch + '"&type=track';
                         $.get(requestUrl).then((jsonData) => {
+                            // Data parser for spotify api
                             jsonData = Object.values(jsonData)[0].items[0];
 
                             const durationMS = jsonData.duration_ms;
@@ -158,24 +143,22 @@ router
                         });
                     }
                     if (itemToSearchType.indexOf('book') >= 0) {
-
                         $.ajax('https://www.googleapis.com/books/v1/volumes?q="' + itemToSearch + '"').then((jsonData) => {
+                            // data parser for google api
                             jsonData = Object.values(jsonData);
                             jsonData = jsonData[2][0].volumeInfo;
-                            console.log(jsonData)
                             const title = jsonData.title;
                             const href = jsonData.imageLinks.thumbnail;
                             const description = jsonData.description;
 
                             data.writeNewItem(collectionId, title, href, description);
                             toastr.success(CONSTANTS.BOOK_ADDED);
-                        })
+                        });
                     }
-
-                })
+                });
             }).then(() => {
+                // delete item
                 $('.item-btn-delete').click((ev) => {
-
                     const collectionId = $('#key-container').html();
                     const itemKey = $('.item-btn-delete').next().html();
 
@@ -196,12 +179,13 @@ router
             .then();
     }).resolve();
 
-router.notFound(function () {
+router.notFound(function() {
     invalidController();
 });
 
 User.initAuthStatusChange();
 
+// Changes Sign in button to Sign out, when user signs in
 $('#sign-in-btn').click(() => {
     if ($('#sign-in-btn').text() === 'Sign out') {
         User.signOut();
@@ -212,4 +196,4 @@ $('#sign-in-btn').click(() => {
 
 export {
     router,
-}
+};

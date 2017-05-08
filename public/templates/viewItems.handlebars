@@ -1,4 +1,10 @@
-
+<!--Share buttons-->
+<div>
+     <div class="text-center">
+        <button class="btn btn-primary item-btn-share">Share</button>       
+    </div>
+</div>
+<!--Items-->
 {{#each this.items}} 
 <div class="card" id="item-preview">
     
@@ -10,9 +16,6 @@
     </div>
     <div class="md-form">
         <p class="item-description-preview">{{this.description}}</p>
-    </div>
-    <div class="text-center">
-        <button class="btn btn-primary item-btn-share">Share</button>       
-    </div>
+    </div>   
 </div>
 {{/each}}
