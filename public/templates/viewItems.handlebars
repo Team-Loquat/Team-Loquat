@@ -1,9 +1,14 @@
 <!--Share buttons-->
+{{#unless this.isPrivate}}
 <div>
-     <div class="text-center">
-        <button class="btn btn-primary item-btn-share">Share</button>       
+     <div>
+{{!--        <button class="btn btn-primary item-btn-share">Share</button> --}}
+         {{#facebook-btn}}127.0.0.1/#/view-items/{{this.key}}{{/facebook-btn}}
+         {{#twitter-btn}}127.0.0.1/#/view-items/{{this.key}}{{/twitter-btn}}
+         {{#google-btn}}127.0.0.1/#/view-items/{{this.key}}{{/google-btn}}
     </div>
 </div>
+{{/unless}}
 <!--Items-->
 {{#each this.items}} 
 <div class="card" id="item-preview">
