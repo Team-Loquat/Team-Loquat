@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Vlaev",
+  "author": "Vlaev && Nikolay Nachev",
   "license": "MIT",
   "dependencies": {
     "firebase": "^3.9.0",
