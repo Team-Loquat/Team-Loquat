@@ -1,0 +1,21 @@
+<!--Share buttons-->
+{{#unless this.isPrivate}}
+<div class="text-center">
+         {{#facebook-btn}}https://loquat-collector.firebaseapp.com/#/view-items/{{this.key}}{{/facebook-btn}}
+</div>
+{{/unless}}
+<!--Items-->
+{{#each this.items}} 
+<div class="card" id="item-preview">
+    
+    <div class="md-form">
+        <span class="item-name-preview"> Title: {{this.name}}</span>
+    </div>
+    <div class="md-form">
+        <img src="{{href}}" class="item-img-preview" />
+    </div>
+    <div class="md-form">
+        <p class="item-description-preview">{{this.description}}</p>
+    </div>   
+</div>
+{{/each}}
